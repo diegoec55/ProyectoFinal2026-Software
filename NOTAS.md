@@ -20,3 +20,6 @@ mi-proyecto/
 ├── .env                # Configuración
 ├── package.json        # Script y dependencias
 └── server.js           # Arranca el servidor (opcionalmente fuera de src)
+
+
+Project start
