@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname,'../public')))
 
 //ruta principal
 app.get('/',(req,res)=>{
-    res.render('index',{title:'Hola proyecto'})
+    res.render('index',{title:'Proyecto 2026'})
 })
 
 //puerto
