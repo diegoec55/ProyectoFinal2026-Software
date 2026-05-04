@@ -1,19 +1,18 @@
 const express = require ('express')
 const app = express()
 const path = require('path')
+const cors = require('cors')
 
-//configurar EJS
-app.set('view engine','ejs')
+//middlewares
+app.use(cors())
+app.use(express.json())
 
-//configuro para que detecte las views
-app.set('views', path.join(__dirname,'views'))
-
-//archivos static
-app.use(express.static(path.join(__dirname,'../public')))
+//servir frontend
+app.use(express.static(path.join(__dirname, '../public')))
 
 //ruta principal
 app.get('/',(req,res)=>{
-    res.render('index',{title:'Proyecto 2026'})
+    res.sendFile(path.join(__dirname, '../public/index.html'))
 })
 
 //puerto
