@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes } = require('sequelize') //definimos los tipos de datos
 const sequelize = require('../config/database')
 
 const User = sequelize.define('User', {

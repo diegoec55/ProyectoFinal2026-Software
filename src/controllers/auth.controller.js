@@ -7,16 +7,24 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ where: { email } })
 
         if (!user) {
-            return res.status(404).json({ error: 'Usuario no encontrado' })
+            return res.status(404).json({ message: 'Usuario no encontrado' })
         }
 
+        // comparacion simple (DESPUES REPASAR COMO USAR BCRYPT)
         if (user.password !== password) {
-            return res.status(401).json({ error: 'Contraseña incorrecta' })
+            return res.status(401).json({ message: 'Contraseña incorrecta' })
         }
 
-        res.json({ message: 'Login exitoso', user })
+        res.json({
+            message: 'Login exitoso',
+            user: {
+                id: user.id,
+                email: user.email
+            }
+        })
 
     } catch (error) {
-        res.status(500).json({ error: 'Error en el servidor' })
+        console.error(error)
+        res.status(500).json({ message: 'Error del servidor' })
     }
 }
