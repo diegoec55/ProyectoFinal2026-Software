@@ -1,4 +1,8 @@
-async function login() {
+const form = document.getElementById('loginForm')
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault() // para evitar la recarga
+
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
 
@@ -14,13 +18,12 @@ async function login() {
         const data = await res.json()
 
         if (res.ok) {
-            document.getElementById('mensaje').textContent = 'Login OK'
-            console.log(data)
+            console.log('Login OK', data)
         } else {
-            document.getElementById('mensaje').textContent = data.message
+            console.log(data.message)
         }
 
     } catch (error) {
         console.error(error)
     }
-}
+})
