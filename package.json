@@ -1,10 +1,11 @@
 {
   "name": "proyecto-web",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,7 @@
   "description": "",
   "dependencies": {
     "dotenv": "^17.4.2",
-    "ejs": "^5.0.2",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "mysql2": "^3.22.0",
     "sequelize": "^6.37.8"
