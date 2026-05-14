@@ -20,7 +20,7 @@ form.addEventListener('submit', async (e) => {
 
         const data = await res.json()
 
-        const mensaje = document.getElementById('mensaje')
+        const mensaje = document.getElementById('message')
 
         if (res.ok) {
             mensaje.textContent = 'Usuario registrado correctamente'

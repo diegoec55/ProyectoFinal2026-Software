@@ -12,6 +12,13 @@ body {
     gap: 20px;
 }
 
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
 input {
     height: 30px;
     width: 60%;
