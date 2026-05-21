@@ -1,7 +1,7 @@
 const User = require('../models/User')
 
 exports.register = async (req, res) => {
-    const { email, password } = req.body
+    const { name, email, password } = req.body
 
     try {
 
@@ -18,16 +18,14 @@ exports.register = async (req, res) => {
 
         // crear usuario
         const newUser = await User.create({
+            name,
             email,
             password
         })
 
         res.status(201).json({
             message: 'Usuario creado',
-            user: {
-                id: newUser.id,
-                email: newUser.email
-            }
+            user: newUser
         })
 
     } catch (error) {
