@@ -26,7 +26,10 @@ form.addEventListener('submit', async (e) => {
 
         if (res.ok) {
             mensaje.textContent = 'Usuario registrado correctamente'
-            form.reset()
+
+            // redirigir al perfil
+            window.location.href =
+                `/profile.html?id=${data.user.id}`
         } else {
             mensaje.textContent = data.message
         }

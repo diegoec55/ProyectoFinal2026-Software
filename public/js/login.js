@@ -19,6 +19,9 @@ form.addEventListener('submit', async (e) => {
 
         if (res.ok) {
             console.log('Login OK', data)
+            // redirigir al perfil
+            window.location.href =
+                `/profile.html?id=${data.user.id}`
         } else {
             console.log(data.message)
         }

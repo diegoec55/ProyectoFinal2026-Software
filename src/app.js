@@ -19,7 +19,7 @@ app.use(express.json())
 testConnection()
 
 // sincronizar modelos
-sequelize.sync({ force: true })
+sequelize.sync()
 
 // CREAR USUARIO DE PRUEBA (ejecutar una sola vez)
 async function crearUsuario() {
