@@ -9,6 +9,7 @@ const User = require('./models/User')
 
 // rutas
 const authRoutes = require('./routes/auth.routes')
+const userRoutes = require('./routes/user.routes')
 
 //middlewares
 app.use(cors())
@@ -48,6 +49,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 // API
 app.use('/api/auth', authRoutes)
+app.use('/api/users', userRoutes)
 
 //ruta principal
 app.get('/', (req, res) => {
