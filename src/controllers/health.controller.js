@@ -20,6 +20,9 @@ exports.createRecord = async (req, res) => {
             fall_detected
         })
 
+        console.log('REGISTRO GUARDADO:')
+        console.log(record.toJSON())
+
         res.status(201).json({
             success: true,
             record
