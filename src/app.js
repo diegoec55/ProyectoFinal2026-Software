@@ -13,6 +13,7 @@ require('./models')
 // rutas
 const authRoutes = require('./routes/auth.routes')
 const userRoutes = require('./routes/user.routes')
+const healthRoutes = require('./routes/health.routes')
 
 //middlewares
 app.use(cors())
