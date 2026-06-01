@@ -1,7 +1,7 @@
 const form = document.getElementById('registerForm')
 
 form.addEventListener('submit', async (e) => {
-    e.preventDefault()
+    e.preventDefault() // para evitar la recarga
 
     const name = document.getElementById('name').value
     const email = document.getElementById('email').value
@@ -22,19 +22,22 @@ form.addEventListener('submit', async (e) => {
 
         const data = await res.json()
 
-        const mensaje = document.getElementById('message')
-
         if (res.ok) {
-            mensaje.textContent = 'Usuario registrado correctamente'
+            console.log('Registro OK', data)
+            
+            // Guardar userId y userName en localStorage
+            localStorage.setItem('userId', data.user.id)
+            localStorage.setItem('userName', data.user.name)
 
             // redirigir al perfil
-            window.location.href =
-                `/profile.html?id=${data.user.id}`
+            window.location.href ='/profile.html'
         } else {
-            mensaje.textContent = data.message
+            console.log(data.message)
+            alert(data.message)
         }
 
     } catch (error) {
         console.error(error)
+        alert('Error en la conexión')
     }
 })
