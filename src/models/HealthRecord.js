@@ -9,6 +9,15 @@ const HealthRecord = sequelize.define('HealthRecord', {
         autoIncrement: true
     },
 
+        user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Users',
+            key: 'id'
+        },
+    },
+
     heart_rate: {
         type: DataTypes.INTEGER,
         allowNull: false
