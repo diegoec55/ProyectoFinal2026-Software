@@ -3,6 +3,9 @@ const app = express()
 const path = require('path')
 const cors = require('cors')
 
+// Carga relaciones
+require('./models')
+
 // DB
 const { sequelize, testConnection } = require('./config/database')
 const User = require('./models/User')
@@ -20,29 +23,6 @@ testConnection()
 
 // sincronizar modelos
 sequelize.sync()
-
-// CREAR USUARIO DE PRUEBA (ejecutar una sola vez)
-async function crearUsuario() {
-    try {
-        const existe = await User.findOne({ where: { email: 'test@test.com' } })
-
-        if (!existe) {
-            await User.create({
-                email: 'test@test.com',
-                password: '1234'
-            })
-            console.log('✔ Usuario de prueba creado')
-        } else {
-            console.log('⚠ Usuario ya existe')
-        }
-
-    } catch (error) {
-        console.error('Error creando usuario:', error)
-    }
-}
-
-// descomentar para crear un usuario UNA VEZ
-// crearUsuario()
 
 //servir frontend
 app.use(express.static(path.join(__dirname, '../public')))
