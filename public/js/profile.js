@@ -1,4 +1,10 @@
-const userId = 1
+// Obtener userId del localStorage (guardado al login/registro)
+let userId = localStorage.getItem('userId')
+
+// Si no existe, redirigir a login
+if (!userId) {
+    window.location.href = '/login.html'
+}
 
 async function loadProfile() {
 
