@@ -19,11 +19,16 @@ form.addEventListener('submit', async (e) => {
 
         if (res.ok) {
             console.log('Login OK', data)
+
+            // Guardar userId y userName en localStorage
+            localStorage.setItem('userId', data.user.id)
+            localStorage.setItem('userName', data.user.name)
+
             // redirigir al perfil
-            window.location.href =
-                `/profile.html?id=${data.user.id}`
+            window.location.href ='/profile.html'
         } else {
             console.log(data.message)
+            alert(data.message)
         }
 
     } catch (error) {
