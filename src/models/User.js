@@ -22,6 +22,8 @@ const User = sequelize.define('User', {
         allowNull: false
     }
 }, {
+    timestamps: true,
+
     hooks: {
         beforeCreate: async (user) => {
             user.password = await bcrypt.hash(user.password, 10)
@@ -38,5 +40,13 @@ const User = sequelize.define('User', {
 User.prototype.validPassword = async function(password) {
     return await bcrypt.compare(password, this.password)
 }
+
+// IMPORTANTE (las relaciones)
+const HealthRecord = require('./HealthRecord')
+
+User.hasMany(HealthRecord, {
+    foreignKey: 'user_id',
+    as: 'records'
+})
 
 module.exports = User
