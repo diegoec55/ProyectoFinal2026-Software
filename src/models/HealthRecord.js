@@ -17,6 +17,17 @@ const HealthRecord = sequelize.define('HealthRecord', {
         type: DataTypes.INTEGER,
         allowNull: false
     }
+
+}, {
+    timestamps: true
+})
+
+// IMPORTANTE (relaciones)
+const User = require('./User')
+
+HealthRecord.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
 })
 
 module.exports = HealthRecord
