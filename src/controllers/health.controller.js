@@ -1,18 +1,23 @@
 const { HealthRecord } = require('../models')
 
 exports.createRecord = async (req, res) => {
+    console.log(req.body)//////////////////////////////////////////////////prueba de error
     try {
 
         const {
-            heartRate
+            user_id,
+            heart_rate,
+            blood_oxygen,
+            temperature,
+            fall_detected
         } = req.body
 
         const record = await HealthRecord.create({
-            user_id: 1,            // temporal para pruebas
-            heart_rate: heartRate,
-            blood_oxygen: 98,      // valor fijo por ahora
-            temperature: 36.5,     // valor fijo por ahora
-            fall_detected: false
+            user_id,
+            heart_rate,
+            blood_oxygen,
+            temperature,
+            fall_detected
         })
 
         res.status(201).json({
