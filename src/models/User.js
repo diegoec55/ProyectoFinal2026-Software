@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize') //definimos los tipos de datos
+const bcrypt = require('bcrypt')
 const { sequelize } = require('../config/database')
 
 const User = sequelize.define('User', {
@@ -20,6 +21,22 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    hooks: {
+        beforeCreate: async (user) => {
+            user.password = await bcrypt.hash(user.password, 10)
+        },
+        beforeUpdate: async (user) => {
+            if (user.changed('password')) {
+                user.password = await bcrypt.hash(user.password, 10)
+            }
+        }
+    }
 })
+
+// Método para comparar contraseñas
+User.prototype.validPassword = async function(password) {
+    return await bcrypt.compare(password, this.password)
+}
 
 module.exports = User

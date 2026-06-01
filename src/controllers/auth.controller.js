@@ -4,6 +4,12 @@ exports.register = async (req, res) => {
     const { name, email, password } = req.body
 
     try {
+        // Validación básica
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                message: 'Nombre, email y contraseña son requeridos'
+            })
+        }
 
         // verificar si ya existe
         const existe = await User.findOne({
@@ -16,7 +22,7 @@ exports.register = async (req, res) => {
             })
         }
 
-        // crear usuario
+        // crear usuario (bcrypt hashea automáticamente gracias al hook)
         const newUser = await User.create({
             name,
             email,
@@ -24,8 +30,12 @@ exports.register = async (req, res) => {
         })
 
         res.status(201).json({
-            message: 'Usuario creado',
-            user: newUser
+            message: 'Usuario creado exitosamente',
+            user: {
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email
+            }
         })
 
     } catch (error) {
@@ -42,6 +52,13 @@ exports.login = async (req, res) => {
     const { email, password } = req.body
 
     try {
+        // Validación básica
+        if (!email || !password) {
+            return res.status(400).json({
+                message: 'Email y contraseña son requeridos'
+            })
+        }
+
         const user = await User.findOne({ 
             where: { email } 
         })
@@ -52,21 +69,25 @@ exports.login = async (req, res) => {
             })
         }
 
-        // comparacion simple (DESPUES REPASAR COMO USAR BCRYPT)
-        if (user.password !== password) {
-            return res.status(401).json({ 
-                message: 'Contraseña incorrecta' 
+        // Comparar contraseña usando bcrypt
+        const passwordValida = await user.validPassword(password)
+
+        if (!passwordValida) {
+            return res.status(401).json({
+                message: 'Contraseña incorrecta'
             })
         }
 
-        res.json({
+        // Login exitoso
+        res.status(200).json({
             message: 'Login exitoso',
             user: {
                 id: user.id,
+                name: user.name,
                 email: user.email
             }
         })
-
+        
     } catch (error) {
         console.error(error)
 
