@@ -41,12 +41,4 @@ User.prototype.validPassword = async function(password) {
     return await bcrypt.compare(password, this.password)
 }
 
-// IMPORTANTE (las relaciones)
-const HealthRecord = require('./HealthRecord')
-
-User.hasMany(HealthRecord, {
-    foreignKey: 'user_id',
-    as: 'records'
-})
-
 module.exports = User

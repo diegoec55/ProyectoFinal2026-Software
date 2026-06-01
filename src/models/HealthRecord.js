@@ -22,12 +22,4 @@ const HealthRecord = sequelize.define('HealthRecord', {
     timestamps: true
 })
 
-// IMPORTANTE (relaciones)
-const User = require('./User')
-
-HealthRecord.belongsTo(User, {
-    foreignKey: 'user_id',
-    as: 'user'
-})
-
 module.exports = HealthRecord
