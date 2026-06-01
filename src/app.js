@@ -3,12 +3,12 @@ const app = express()
 const path = require('path')
 const cors = require('cors')
 
-// Carga relaciones
-require('./models')
-
 // DB
 const { sequelize, testConnection } = require('./config/database')
 const User = require('./models/User')
+
+// Carga relaciones
+require('./models')
 
 // rutas
 const authRoutes = require('./routes/auth.routes')
