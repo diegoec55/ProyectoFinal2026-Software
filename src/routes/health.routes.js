@@ -6,4 +6,6 @@ const healthController =
 
 router.post('/data', healthController.createRecord)
 
+router.get('/data', healthController.getRecords)
+
 module.exports = router
