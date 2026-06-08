@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'))
 })
 
-//servir frontend
+// servir frontend
 app.use(express.static(path.join(__dirname, '../public')))
 
 //puerto
