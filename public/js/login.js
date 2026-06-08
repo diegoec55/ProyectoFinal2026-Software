@@ -25,7 +25,7 @@ form.addEventListener('submit', async (e) => {
             localStorage.setItem('userName', data.user.name)
 
             // redirigir al perfil
-            window.location.href ='/profile.html'
+            window.location.href ='/index.html'
         } else {
             console.log(data.message)
             alert(data.message)

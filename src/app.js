@@ -25,9 +25,6 @@ testConnection()
 // sincronizar modelos
 sequelize.sync()
 
-//servir frontend
-app.use(express.static(path.join(__dirname, '../public')))
-
 // API
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
@@ -37,6 +34,9 @@ app.use('/api', healthRoutes)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'))
 })
+
+//servir frontend
+app.use(express.static(path.join(__dirname, '../public')))
 
 //puerto
 const PORT = 3000

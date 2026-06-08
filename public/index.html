@@ -12,7 +12,7 @@
     <h1>Monitor de Salud</h1>
     <h2>Última medición</h2>
 
-    <div id="ultima-medicion">Cargando...</div>
+    <div id="last-record">Cargando...</div>
 
     <h2>Historial</h2>
 
@@ -28,11 +28,17 @@
                 </tr>
             </thead>
     
-            <tbody id="tabla-mediciones"></tbody>
+            <tbody id="table-record"></tbody>
         </table>
     </div>
 
+    <h2>Gráfico BPM</h2>
+    <canvas id="heartRateChart"></canvas>
 
+    <h2>Gráfico SpO₂</h2>
+    <canvas id="oxygenChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/index.js"></script>
 </body>
 

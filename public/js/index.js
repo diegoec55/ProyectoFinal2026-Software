@@ -1,49 +1,96 @@
+let heartRateChart
+let oxygenChart
+
+function crearGraficos(records) {
+
+    const labels = records
+        .slice()
+        .reverse()
+        .map(record => new Date(record.createdAt).toLocaleTimeString())
+
+    const bpmData = records
+        .slice()
+        .reverse()
+        .map(record => record.heart_rate)
+
+    const oxygenData = records
+        .slice()
+        .reverse()
+        .map(record => record.blood_oxygen)
+
+    // BPM
+    if (heartRateChart) {
+        heartRateChart.destroy()
+    }
+
+    heartRateChart = new Chart(
+        document.getElementById('heartRateChart'),
+        {
+            type: 'line',
+
+            data: {
+                labels,
+
+                datasets: [{
+                    label: 'BPM',
+                    data: bpmData
+                }]
+            }
+        }
+    )
+
+    // Oxígeno
+    if (oxygenChart) {
+        oxygenChart.destroy()
+    }
+
+    oxygenChart = new Chart(
+        document.getElementById('oxygenChart'),
+        {
+            type: 'line',
+
+            data: {
+                labels,
+
+                datasets: [{
+                    label: 'SpO₂ (%)',
+                    data: oxygenData
+                }]
+            }
+        }
+    )
+}
+
 async function loadData() {
 
     try {
-
-        const res =
-            await fetch('/api/data')
-
-        const records =
-            await res.json()
+        const res = await fetch('/api/data')
+        const records = await res.json()
 
         if (!records.length) {
-
-            document.getElementById(
-                'ultima-medicion'
-            ).textContent =
-                'No hay mediciones'
-
+            document.getElementById('last-record').textContent = 'No hay mediciones'
             return
         }
 
         const ultima = records[0]
 
-        document.getElementById(
-            'ultima-medicion'
-        ).innerHTML = `
+        document.getElementById('last-record').innerHTML = `
             BPM: ${ultima.heart_rate}<br>
             SpO₂: ${ultima.blood_oxygen}%<br>
             Temp: ${ultima.temperature}°C<br>
             Caída: ${ultima.fall_detected ? 'Sí' : 'No'}
         `
 
-        const tabla =
-            document.getElementById(
-                'tabla-mediciones'
-            )
+        const table = document.getElementById('table-record')
 
-        tabla.innerHTML = ''
+        table.innerHTML = ''
 
         records.forEach(record => {
 
-            tabla.innerHTML += `
+            table.innerHTML += `
                 <tr>
                     <td>
-                        ${new Date(
-                            record.createdAt
-                        ).toLocaleString()}
+                        ${new Date(record.createdAt).toLocaleString()}
                     </td>
 
                     <td>
@@ -59,16 +106,15 @@ async function loadData() {
                     </td>
 
                     <td>
-                        ${record.fall_detected
-                            ? 'Sí'
-                            : 'No'}
+                        ${record.fall_detected ? 'Sí' : 'No'}
                     </td>
                 </tr>
             `
         })
 
-    } catch (error) {
+        crearGraficos(records)
 
+    } catch (error) {
         console.error(error)
     }
 }
