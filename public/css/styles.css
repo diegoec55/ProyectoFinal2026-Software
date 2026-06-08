@@ -37,3 +37,8 @@ button {
     font-weight: bold;
     cursor: pointer;
 }
+
+.table-container {
+    display: flex;
+    justify-content: center;
+}
