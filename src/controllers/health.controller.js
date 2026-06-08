@@ -38,3 +38,23 @@ exports.createRecord = async (req, res) => {
         })
     }
 }
+
+exports.getRecords = async (req, res) => {
+
+    try {
+
+        const records = await HealthRecord.findAll({
+            order: [['createdAt', 'DESC']]
+        })
+
+        res.json(records)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            message: 'Error al obtener registros'
+        })
+    }
+}
