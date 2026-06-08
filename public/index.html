@@ -1,15 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Principal</title>
+    <title>Monitor de Salud</title>
     <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
 <body>
-    
+    <h1>Monitor de Salud</h1>
+    <h2>Última medición</h2>
+
+    <div id="ultima-medicion">Cargando...</div>
+
+    <h2>Historial</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>BPM</th>
+                <th>SpO₂</th>
+                <th>Temperatura</th>
+                <th>Caída</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabla-mediciones"></tbody>
+    </table>
+
+    <script src="/js/index.js"></script>
 </body>
 
 </html>
