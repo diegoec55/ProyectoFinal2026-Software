@@ -30,7 +30,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api', healthRoutes)
 
-//ruta principal
+// ruta principal
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'))
 })
