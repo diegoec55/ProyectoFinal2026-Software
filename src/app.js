@@ -14,6 +14,7 @@ require('./models')
 const authRoutes = require('./routes/auth.routes')
 const userRoutes = require('./routes/user.routes')
 const healthRoutes = require('./routes/health.routes')
+const carerRoutes = require('./routes/carer.routes')
 
 //middlewares
 app.use(cors())
@@ -23,12 +24,17 @@ app.use(express.json())
 testConnection()
 
 // sincronizar modelos
-sequelize.sync()
+// sequelize.sync()
+
+// sincronizar modelos (Cambiado a force: true temporalmente para resetear la base de datos)
+sequelize.sync({ force: true }) 
+    .then(() => console.log("Base de datos reseteada con los nuevos campos y relaciones"))
 
 // API
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api', healthRoutes)
+app.use('/api/carers', carerRoutes)
 
 // ruta principal
 app.get('/', (req, res) => {
