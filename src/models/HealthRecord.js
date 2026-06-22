@@ -2,37 +2,27 @@ const { DataTypes } = require('sequelize')
 const { sequelize } = require('../config/database')
 
 const HealthRecord = sequelize.define('HealthRecord', {
-
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-
-        user_id: {
+    user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Users',
-            key: 'id'
-        },
     },
-
     heart_rate: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-
     blood_oxygen: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-
     temperature: {
         type: DataTypes.FLOAT,
         allowNull: true
     },
-
     fall_detected: {
         type: DataTypes.BOOLEAN,
         defaultValue: false

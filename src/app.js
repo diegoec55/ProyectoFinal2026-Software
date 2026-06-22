@@ -24,11 +24,11 @@ app.use(express.json())
 testConnection()
 
 // sincronizar modelos
-sequelize.sync()
+// sequelize.sync()
 
 // sincronizar modelos (Cambiado a force: true temporalmente para resetear la base de datos)
-// sequelize.sync({ force: true }) 
-//     .then(() => console.log("Base de datos reseteada con los nuevos campos y relaciones"))
+sequelize.sync({ force: true }) 
+    .then(() => console.log("Base de datos reseteada con los nuevos campos y relaciones"))
 
 // API
 app.use('/api/auth', authRoutes)
