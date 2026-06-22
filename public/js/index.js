@@ -11,6 +11,26 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     window.location.href = '/login.html'
 })
 
+// Control de flujo inicial segun el Rol del usuario logueado
+async function init() {
+    if (!currentUserId) {
+        window.location.href = '/login.html'
+        return
+    }
+
+    if (currentUserRole === 'carer') {
+        // Si es cuidador, mostramos el selector y cargamos sus pacientes
+        document.getElementById('carer-section').style.display = 'block'
+        document.getElementById('last-record').textContent = 'Por favor, seleccione un paciente para monitorear.'
+        await loadAssignedPatients()
+    } else {
+        // Si es paciente, monitorea sus propios datos inmediatamente
+        document.getElementById('monitor-title').textContent = 'Última medición (Tus datos)'
+        loadData(currentUserId)
+        updateInterval = setInterval(() => loadData(currentUserId), 5000)
+    }
+}
+
 function crearGraficos(records) {
 
     const labels = records
