@@ -1,58 +1,84 @@
-// Obtener userId del localStorage (guardado al login/registro)
+// Obtener datos del localStorage
 let userId = localStorage.getItem('userId')
+let userRole = localStorage.getItem('userRole')
 
 // Si no existe, redirigir a login
 if (!userId) {
     window.location.href = '/login.html'
 }
 
+// Ocultar campo de enfermedades si el usuario actual es un cuidador
+if (userRole === 'carer') {
+    const illnessesGroup = document.getElementById('illnesses-group')
+    if (illnessesGroup) illnessesGroup.style.display = 'none'
+}
+
 async function loadProfile() {
-
     try {
-
-        const res =
-            await fetch(`/api/users/${userId}`)
-
+        const res =await fetch(`/api/users/${userId}`)
         const user = await res.json()
 
-        document.getElementById('name').value =
-            user.name
+        // Rellenar los campos con los datos actuales del usuario
+        document.getElementById('name').value = user.name || ''
+        document.getElementById('lastName').value = user.lastName || ''
+        document.getElementById('dni').value = user.dni || ''
+
+        // Formatear la fecha (YYYY-MM-DD) para que el input type="date" la reconozca correctamente
+        if (user.birthDate) {
+            document.getElementById('birthDate').value = user.birthDate.split('T')[0]
+        }
+
+        // Si es paciente, rellenar enfermedades
+        if (userRole !== 'carer' && user.illnesses) {
+            document.getElementById('illnesses').value = user.illnesses
+        }
 
     } catch (error) {
-
-        console.error(error)
+        console.error('Error al cargar perfil:', error)
     }
 }
 
 async function updateProfile() {
+    // Capturar todos los valores editados
+    const name = document.getElementById('name').value
+    const lastName = document.getElementById('lastName').value
+    const dni = document.getElementById('dni').value
+    const birthDate = document.getElementById('birthDate').value
+    const illnesses = document.getElementById('illnesses') ? document.getElementById('illnesses').value : null
 
-    const name =
-        document.getElementById('name').value
+    // Estructurar el objeto a enviar al backend
+    const updateData = {
+        name,
+        lastName,
+        dni,
+        birthDate,
+        illnesses: userRole === 'carer' ? null : illnesses
+    }
 
     try {
-
-        const res =
-            await fetch(`/api/users/${userId}`, {
-
+        const res = await fetch(`/api/users/${userId}`, {
                 method: 'PUT',
-
                 headers: {
                     'Content-Type': 'application/json'
                 },
-
-                body: JSON.stringify({
-                    name
-                })
+                body: JSON.stringify({updateData})
             })
 
         const data = await res.json()
 
-        document.getElementById('mensaje')
-            .textContent = data.message
+        // Actualizar el nombre en el localStorage por si cambio y se muestra en el menu/inicio
+        if (res.ok && data.user) {
+            localStorage.setItem('userName', data.user.name)
+        }
+
+        const mensajeElement = document.getElementById('mensaje')
+        mensajeElement.textContent = data.message
+        mensajeElement.style.color = res.ok ? 'green' : 'red'
 
     } catch (error) {
-
-        console.error(error)
+        console.error('Error al actualizar perfil:', error)
+        document.getElementById('mensaje').textContent = 'Error en la conexión'
+        document.getElementById('mensaje').style.color = 'red'
     }
 }
 
