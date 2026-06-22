@@ -11,6 +11,18 @@ HealthRecord.belongsTo(User, {
     as: 'user'
 })
 
+// NUEVA RELACIÓN: Autoreferencia para el cuidador asignado
+User.belongsTo(User, { 
+    foreignKey: 'caregiverId', 
+    as: 'assignedCaregiver' 
+})
+
+// Opcional: Si querés saber a qué usuarios cuida un cuidador específico
+User.hasMany(User, {
+    foreignKey: 'caregiverId',
+    as: 'patients'
+})
+
 module.exports = {
     User,
     HealthRecord

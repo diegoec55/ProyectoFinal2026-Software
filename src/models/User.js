@@ -12,6 +12,19 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    lastName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    dni: {
+        type: DataTypes.STRING(20), // STRING por si incluye puntos o guiones
+        allowNull: false,
+        unique: true
+    },
+    birthDate: {
+        type: DataTypes.DATEONLY, // solo YYYY-MM-DD sin hora
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -20,6 +33,15 @@ const User = sequelize.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    role: {
+        type: DataTypes.ENUM('admin', 'user', 'cuidador'),
+        allowNull: false,
+        defaultValue: 'user'
+    },
+    illnesses: {
+        type: DataTypes.TEXT, // TEXT permite descripciones largas a diferencia de STRING
+        allowNull: true       // Opcional, por si el usuario no tiene enfermedades
     }
 }, {
     timestamps: true,
