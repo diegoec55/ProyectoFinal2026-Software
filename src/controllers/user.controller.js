@@ -59,3 +59,16 @@ exports.updateUser = async (req, res) => {
         res.status(500).json({message: 'Error del servidor'})
     }
 }
+
+// Obtener todos los usuarios del sistema (util para el panel de administracion)
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: { exclude: ['password'] } // Seguridad basica
+        })
+        res.json(users)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error del servidor al listar usuarios' })
+    }
+}
