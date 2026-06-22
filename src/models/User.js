@@ -37,7 +37,7 @@ const User = sequelize.define('User', {
     role: {
         type: DataTypes.ENUM('admin', 'user', 'cuidador'),
         allowNull: false,
-        defaultValue: 'user'
+        defaultValue: 'admin' // SOLO PARA PROBAR TODAS LAS OPCIONES NUEVAS, DESPUES CAMBIAR A SER!!!!!!
     },
     illnesses: {
         type: DataTypes.TEXT, // TEXT permite descripciones largas a diferencia de STRING
