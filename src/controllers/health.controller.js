@@ -3,7 +3,6 @@ const { HealthRecord } = require('../models')
 exports.createRecord = async (req, res) => {
     console.log(req.body)//////////////////////////////////////////////////prueba de error
     try {
-
         const {
             user_id,
             heart_rate,
@@ -39,20 +38,21 @@ exports.createRecord = async (req, res) => {
     }
 }
 
+// Ahora filtra por el usuario recibido como parametro de ruta
 exports.getRecords = async (req, res) => {
-
     try {
+        const { userId } = req.params // Captura el ID desde la URL
 
+        // Buscamos solo los registros que pertenezcan a este usuario específico
         const records = await HealthRecord.findAll({
+            where: { user_id: userId },
             order: [['createdAt', 'DESC']]
         })
 
         res.json(records)
 
     } catch (error) {
-
         console.error(error)
-
         res.status(500).json({
             message: 'Error al obtener registros'
         })
