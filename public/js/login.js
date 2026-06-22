@@ -23,6 +23,7 @@ form.addEventListener('submit', async (e) => {
             // Guardar userId y userName en localStorage
             localStorage.setItem('userId', data.user.id)
             localStorage.setItem('userName', data.user.name)
+            localStorage.setItem('userRole', data.user.role)
 
             // redirigir al perfil
             window.location.href ='/index.html'
