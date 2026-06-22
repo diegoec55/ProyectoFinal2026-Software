@@ -11,7 +11,7 @@ exports.getUser = async (req, res) => {
             // Traemos los datos basicos de su cuidador asociado
             include: {
                 model: User,
-                as: 'assignedCaregiver',
+                as: 'assignedCarer',
                 attributes: ['id', 'name', 'lastName', 'email'] 
             }
         })
@@ -42,7 +42,7 @@ exports.updateUser = async (req, res) => {
         user.dni = req.body.dni || user.dni
         user.birthDate = req.body.birthDate || user.birthDate
         user.illnesses = req.body.illnesses !== undefined ? req.body.illnesses : user.illnesses
-        user.caregiverId = req.body.caregiverId !== undefined ? req.body.caregiverId : user.caregiverId
+        user.carerId = req.body.carerId !== undefined ? req.body.carerId : user.carerId
 
         await user.save()
 

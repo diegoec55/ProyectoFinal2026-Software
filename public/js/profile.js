@@ -15,7 +15,7 @@ if (userRole === 'carer') {
 
 async function loadProfile() {
     try {
-        const res =await fetch(`/api/users/${userId}`)
+        const res = await fetch(`/api/users/${userId}`)
         const user = await res.json()
 
         // Rellenar los campos con los datos actuales del usuario
@@ -61,7 +61,7 @@ async function updateProfile() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({updateData})
+                body: JSON.stringify(updateData)
             })
 
         const data = await res.json()
