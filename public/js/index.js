@@ -29,6 +29,10 @@ async function init() {
         loadData(currentUserId)
         updateInterval = setInterval(() => loadData(currentUserId), 5000)
     }
+
+    if (currentUserRole === 'admin') {
+        document.getElementById('admin-panel-btn').style.display = 'inline-block'
+    }
 }
 
 // Cargar la lista de pacientes que tiene a cargo este Cuidador
