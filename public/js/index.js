@@ -1,7 +1,65 @@
-let heartRateChart
-let oxygenChart
+// let heartRateChart
+// let oxygenChart
+let healthChart
 
 function crearGraficos(records) {
+
+    const labels = records
+        .slice()
+        .reverse()
+        .map(record => new Date(record.createdAt).toLocaleTimeString())
+
+    const bpmData = records
+        .slice()
+        .reverse()
+        .map(record => record.heart_rate)
+
+    const oxygenData = records
+        .slice()
+        .reverse()
+        .map(record => record.blood_oxygen)
+
+    if (healthChart) {
+        healthChart.destroy()
+    }
+
+    healthChart = new Chart(
+        document.getElementById('healthChart'),
+        {
+            type: 'line',
+
+            data: {
+                labels,
+
+                datasets: [
+                    {
+                        label: 'BPM',
+                        data: bpmData,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'SpO₂ (%)',
+                        data: oxygenData,
+                        tension: 0.3
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Monitoreo de Signos Vitales'
+                    }
+                }
+            }
+        }
+    )
+}
+
+function createChart(records) {
 
     const labels = records
         .slice()
