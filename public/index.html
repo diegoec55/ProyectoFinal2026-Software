@@ -9,14 +9,26 @@
 </head>
 
 <body>
-    <a href="profile.html" class="button">Perfil</a>
-    <h1>Monitor de Salud</h1>
-    <h2>Última medición</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+        <a href="profile.html" class="button">Perfil</a>
+        <!-- Boton para cerrar sesion de forma limpia -->
+        <button id="logout-btn" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Cerrar Sesión</button>
+    </div>
 
+    <h1>Monitor de Salud</h1>
+
+    <!-- NUEVA SECCIÓN: Solo para Cuidadores -->
+    <div id="carer-section" style="display: none; background: #f0f0f0; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+        <label for="patient-select" style="font-weight: bold;">Seleccionar Paciente Asignado:</label>
+        <select id="patient-select" style="margin-left: 10px; padding: 5px;">
+            <option value="">-- Seleccione un paciente --</option>
+        </select>
+    </div>
+
+    <h2 id="monitor-title">Última medición</h2>
     <div id="last-record">Cargando...</div>
 
     <h2>Historial</h2>
-
     <div class="table-container">
         <table border="1">
             <thead>
@@ -28,7 +40,6 @@
                     <th>Caída</th>
                 </tr>
             </thead>
-    
             <tbody id="table-record"></tbody>
         </table>
     </div>
