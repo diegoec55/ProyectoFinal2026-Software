@@ -1,13 +1,13 @@
 const { User } = require('../models/index')
 
 // Listar todos los cuidadores del sistema (para que el Admin elija uno)
-exports.getAllCaregivers = async (req, res) => {
+exports.getAllCarers = async (req, res) => {
     try {
-        const caregivers = await User.findAll({
+        const carers = await User.findAll({
             where: { role: 'cuidador' },
             attributes: ['id', 'name', 'lastName', 'email']
         })
-        res.json(caregivers)
+        res.json(carers)
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Error del servidor' })
@@ -17,7 +17,7 @@ exports.getAllCaregivers = async (req, res) => {
 // Ver los pacientes que tiene asignados un cuidador específico
 exports.getAssignedPatients = async (req, res) => {
     try {
-        const caregiver = await User.findByPk(req.params.id, {
+        const carer = await User.findByPk(req.params.id, {
             attributes: ['id', 'name', 'lastName'],
             include: {
                 model: User,
@@ -26,11 +26,11 @@ exports.getAssignedPatients = async (req, res) => {
             }
         })
 
-        if (!caregiver || caregiver.role !== 'cuidador') {
+        if (!carer || carer.role !== 'cuidador') {
             return res.status(404).json({ message: 'Cuidador no encontrado' })
         }
 
-        res.json(caregiver.patients)
+        res.json(carer.patients)
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Error del servidor' })
