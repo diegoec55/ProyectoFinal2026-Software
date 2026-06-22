@@ -1,6 +1,15 @@
 // let heartRateChart
 // let oxygenChart
 let healthChart
+let updateInterval = null
+const currentUserId = localStorage.getItem('userId')
+const currentUserRole = localStorage.getItem('userRole')
+
+// boton de cerrar sesion
+document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.clear()
+    window.location.href = '/login.html'
+})
 
 function crearGraficos(records) {
 
