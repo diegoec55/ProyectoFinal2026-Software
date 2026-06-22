@@ -8,6 +8,6 @@ const { isAdmin, isCarerOrAdmin } = require('../middlewares/auth.middleware')
 router.get('/', /* verifyToken, */ isAdmin, carerController.getAllCarers)
 
 // 2. Ver los pacientes asignados a un cuidador específico (Accesible por Admin o el propio Carer)
-router.get('/:id/patients', /* verifyToken, */ isCarerOrAdmin, carerController.getAssignedPatients)
+router.get('/:id/patients', /* verifyToken, */ /*isCarerOrAdmin,*/ carerController.getAssignedPatients)
 
 module.exports = router

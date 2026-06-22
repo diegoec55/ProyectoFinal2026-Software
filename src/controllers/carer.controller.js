@@ -4,7 +4,7 @@ const { User } = require('../models/index')
 exports.getAllCarers = async (req, res) => {
     try {
         const carers = await User.findAll({
-            where: { role: 'cuidador' },
+            where: { role: 'carer' },
             attributes: ['id', 'name', 'lastName', 'email']
         })
         res.json(carers)
@@ -18,7 +18,7 @@ exports.getAllCarers = async (req, res) => {
 exports.getAssignedPatients = async (req, res) => {
     try {
         const carer = await User.findByPk(req.params.id, {
-            attributes: ['id', 'name', 'lastName'],
+            attributes: ['id', 'name', 'lastName', 'role'],
             include: {
                 model: User,
                 as: 'patients',
@@ -26,7 +26,7 @@ exports.getAssignedPatients = async (req, res) => {
             }
         })
 
-        if (!carer || carer.role !== 'cuidador') {
+        if (!carer || carer.role !== 'carer') {
             return res.status(404).json({ message: 'Cuidador no encontrado' })
         }
 
