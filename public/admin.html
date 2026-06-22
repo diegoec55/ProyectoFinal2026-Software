@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+        <a href="index.html" class="button">Inicio</a>
+        <h1>Panel de Administración</h1>
+        <span id="admin-name" style="font-weight: bold;"></span>
+    </div>
+
+    <h2>Gestión y Asignación de Cuidadores</h2>
+    
+    <div class="table-container">
+        <table border="1" style="width: 100%; text-align: left; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>Paciente (Nombre y Apellido)</th>
+                    <th>DNI</th>
+                    <th>Enfermedades</th>
+                    <th>Cuidador Asignado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="management-table">
+                <!-- Se rellena dinamicamente con JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <p id="admin-message" style="font-weight: bold; margin-top: 15px;"></p>
+
+    <script src="/js/admin.js"></script>
+</body>
+
+</html>
