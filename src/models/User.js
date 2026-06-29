@@ -42,6 +42,16 @@ const User = sequelize.define('User', {
     illnesses: {
         type: DataTypes.TEXT, // TEXT permite descripciones largas a diferencia de STRING
         allowNull: true       // Opcional, por si el usuario no tiene enfermedades
+    },
+
+    phone: {
+        type: DataTypes.STRING(20),
+        allowNull: true
+    },
+
+    patientId: {
+        type: DataTypes.INTEGER,
+        allowNull: true
     }
 }, {
     timestamps: true,
