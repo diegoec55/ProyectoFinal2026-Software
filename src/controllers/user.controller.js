@@ -37,13 +37,13 @@ exports.updateUser = async (req, res) => {
             return res.status(404).json({message: 'Usuario no encontrado'})
         }
         // Permitimos actualizar los campos personales, enfermedades y el cuidador asignado
-        user.name = req.body.name || user.name
-        user.lastName = req.body.lastName || user.lastName
-        user.dni = req.body.dni || user.dni
-        user.birthDate = req.body.birthDate || user.birthDate
-        user.illnesses = req.body.illnesses !== undefined ? req.body.illnesses : user.illnesses
+        user.name = req.body.name ?? user.name
+        user.lastName = req.body.lastName ?? user.lastName
+        user.dni = req.body.dni ?? user.dni
+        user.birthDate = req.body.birthDate ?? user.birthDate
+        user.illnesses = req.body.illnesses ?? user.illnesses
         user.carerId = req.body.carerId !== undefined ? req.body.carerId : user.carerId
-        user.phone = req.body.phone || user.phone
+        user.phone = req.body.phone ?? user.phone
 
         await user.save()
 
