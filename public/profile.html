@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-    
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,35 +12,54 @@
     <a href="index.html" class="button">Inicio</a>
     <h1>Mi Perfil</h1>
 
-    <div class="form-group" style="margin-bottom: 15px;">
-        <label for="name" style="display: block; font-weight: bold;">Nombre:</label>
+    <div class="form-group" style="margin-bottom: 15px">
+        <label for="name" style="display: block; font-weight: bold">Nombre:</label>
         <input type="text" id="name" required />
     </div>
 
-    <div class="form-group" style="margin-bottom: 15px;">
-        <label for="lastName" style="display: block; font-weight: bold;">Apellido:</label>
+    <div class="form-group" style="margin-bottom: 15px">
+        <label for="lastName" style="display: block; font-weight: bold">Apellido:</label>
         <input type="text" id="lastName" required />
     </div>
 
-    <div class="form-group" style="margin-bottom: 15px;">
-        <label for="dni" style="display: block; font-weight: bold;">DNI:</label>
+    <div class="form-group" style="margin-bottom: 15px">
+        <label for="dni" style="display: block; font-weight: bold">DNI:</label>
         <input type="text" id="dni" required />
     </div>
 
-    <div class="form-group" style="margin-bottom: 15px;">
-        <label for="birthDate" style="display: block; font-weight: bold;">Fecha de Nacimiento:</label>
+    <div class="form-group" style="margin-bottom: 15px">
+        <label for="birthDate" style="display: block; font-weight: bold">Fecha de Nacimiento:</label>
         <input type="date" id="birthDate" required />
     </div>
 
     <!-- Contenedor que se ocultará dinámicamente si el rol es 'carer' -->
-    <div id="illnesses-group" class="form-group" style="margin-bottom: 15px;">
-        <label for="illnesses" style="display: block; font-weight: bold;">Historial de Enfermedades:</label>
-        <textarea id="illnesses" rows="4" style="width: 100%; box-sizing: border-box;"></textarea>
+    <div id="illnesses-group" class="form-group" style="margin-bottom: 15px">
+        <label for="illnesses" style="display: block; font-weight: bold">Historial de Enfermedades:</label>
+        <textarea id="illnesses" rows="4" style="width: 100%; box-sizing: border-box"></textarea>
     </div>
 
     <button onclick="updateProfile()">Guardar Cambios</button>
 
     <p id="mensaje"></p>
+
+    <div class="form-group">
+        <label for="currentPassword">Contraseña actual</label>
+        <input type="password" id="currentPassword" />
+    </div>
+
+    <div class="form-group">
+        <label for="newPassword">Nueva contraseña</label>
+        <input type="password" id="newPassword" />
+    </div>
+
+    <div class="form-group">
+        <label for="confirmPassword">Confirmar nueva contraseña</label>
+        <input type="password" id="confirmPassword" />
+    </div>
+
+    <button onclick="changePassword()">Cambiar contraseña</button>
+
+    <p id="passwordMessage"></p>
 
     <script src="/js/profile.js"></script>
 </body>
