@@ -1,16 +1,30 @@
 const form = document.getElementById('registerForm')
 const roleSelect = document.getElementById('role')
+const illnessesGroup = document.getElementById('illnesses-group')
 const illnessesTextarea = document.getElementById('illnesses')
+const phoneGroup = document.getElementById('phone-group')
+const patientDniGroup = document.getElementById('patient-dni-group')
 
 // Ocultar o mostrar el campo de enfermedades según el rol seleccionado
-roleSelect.addEventListener('change', (e) => {
-    if (e.target.value === 'carer') {
-        illnessesTextarea.style.display = 'none'
+roleSelect.addEventListener('change', () => {
+    if (roleSelect.value === 'carer') {
+        illnessesGroup.style.display = 'none'
         illnessesTextarea.value = '' // Limpia el texto si había algo escrito
+
+        phoneGroup.style.display = 'block'
+        patientDniGroup.style.display = 'block'
     } else {
-        illnessesTextarea.style.display = 'block'
+        illnessesGroup.style.display = 'block'
+
+        phoneGroup.style.display = 'none'
+        patientDniGroup.style.display = 'none'
+
+        document.getElementById('phone').value = ''
+        document.getElementById('patientDni').value = ''
     }
 })
+// Ejecutar al cargar la pagina
+roleSelect.dispatchEvent(new Event('change'))
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault() // para evitar la recarga
@@ -24,6 +38,23 @@ form.addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value
     const role = roleSelect.value
     const illnesses = illnessesTextarea.value
+    const phone = document.getElementById('phone').value
+    const patientDni = document.getElementById('patientDni').value
+
+    if (role === 'carer') {
+
+        if (!phone.trim()) {
+            alert('Ingrese un teléfono.')
+            return
+        }
+
+        if (!patientDni.trim()) {
+            alert('Ingrese el DNI del paciente.')
+            return
+        }
+
+    }
+
 
     try {
         const res = await fetch('/api/auth/register', {
@@ -39,7 +70,9 @@ form.addEventListener('submit', async (e) => {
                 email,
                 password,
                 role,
-                illnesses: role === 'user' ? illnesses : null // Solo envia enfermedades si es usuario
+                illnesses: role === 'user' ? illnesses : null, // Solo envia enfermedades si es usuario
+                phone: role === 'carer' ? phone : null,
+                patientDni: role === 'carer' ? patientDni : null
             })
         })
 
