@@ -1,32 +1,71 @@
 // IMPORTANTE: Importamos desde el index de modelos para tener las relaciones activas
 const { User } = require('../models/index')
+const { sequelize } = require('../config/database')
+const { Op } = require('sequelize')
 
 exports.register = async (req, res) => {
     // Agregamos todos los campos al req.body
-    const { name, lastName, dni, birthDate, email, password, role, illnesses } = req.body
+    const { name, lastName, dni, birthDate, email, password, role, illnesses, phone, patientDni } = req.body
+
+    const transaction = await sequelize.transaction()
 
     try {
         // Validación básica
-        if (!name || !lastName || !dni || !birthDate || !email || !password) {
+        if (!name || !lastName || !email || !password) {
+            await transaction.rollback()
             return res.status(400).json({
-                message: 'Nombre, apellido, DNI, fecha de nacimiento, email y contraseña son requeridos'
+                message: 'Nombre, apellido, email y contraseña son requeridos'
             })
         }
 
-        // Verificar si el email o el DNI ya existen (ambos deben ser únicos)
-        const existe = await User.findOne({
-            where: {
-                [require('sequelize').Op.or]: [{ email }, { dni }]
+        // Los pacientes necesitan estos datos
+        if ((role || 'user') === 'user') {
+            if (!dni || !birthDate) {
+                await transaction.rollback()
+                return res.status(400).json({
+                    message: 'El paciente debe ingresar DNI y fecha de nacimiento.'
+                })
             }
+        }
+
+        // Los cuidadores necesitan telefono y DNI del paciente
+        if (role === 'carer') {
+            if (!phone || !patientDni) {
+                await transaction.rollback()
+                return res.status(400).json({
+                    message: 'El cuidador debe ingresar teléfono y DNI del paciente.'
+                })
+            }
+        }
+
+        // Verificar si el email existe (debe ser unico)
+        const emailExists = await User.findOne({
+            where: { email },
+            transaction
         })
 
-        if (existe) {
+        if (emailExists) {
+            await transaction.rollback()
             return res.status(400).json({
-                message: 'El email o el DNI ya se encuentran registrados'
+                message: 'El email ya se encuentra registrado.'
             })
         }
 
-        // crear usuario (bcrypt hashea automáticamente gracias al hook)
+        // Registro de PACIENTE
+        if ((role || 'user') === 'user') {
+
+            const dniExists = await User.findOne({
+                where: { dni },
+                transaction
+            })
+
+            if (dniExists) {
+                await transaction.rollback()
+                return res.status(400).json({
+                    message: 'El DNI ya se encuentra registrado.'
+                })
+            }
+
         const newUser = await User.create({
             name,
             lastName,
@@ -34,9 +73,10 @@ exports.register = async (req, res) => {
             birthDate,
             email,
             password,
-            role: role || 'user', // por defecto es 'user'
+            role: 'user', // por defecto es 'user'
             illnesses: illnesses || null
-        })
+        }, { transaction })
+        await transaction.commit()
 
         res.status(201).json({
             message: 'Usuario creado exitosamente',
@@ -48,11 +88,72 @@ exports.register = async (req, res) => {
                 role: newUser.role
             }
         })
+    }
+    // Registro de CUIDADOR
+        const patient = await User.findOne({
+            where: {
+                dni: patientDni,
+                role: 'user'
+            },
+            transaction
+        })
+
+        if (!patient) {
+            await transaction.rollback()
+            return res.status(400).json({
+                message: 'No existe un paciente con ese DNI.'
+            })
+        }
+
+        if (patient.carerId) {
+            await transaction.rollback()
+            return res.status(400).json({
+                message: 'Ese paciente ya tiene un cuidador asignado.'
+            })
+
+        }
+
+        const newCarer = await User.create({
+            name,
+            lastName,
+            // Los cuidadores no necesitan estos datos
+            dni: null,
+            birthDate: null,
+            email,
+            password,
+            role: 'carer',
+            phone,
+            illnesses: null
+        }, { transaction })
+
+        patient.carerId = newCarer.id
+
+        await patient.save({ transaction })
+
+        await transaction.commit()
+
+        return res.status(201).json({
+
+            message: 'Cuidador registrado correctamente.',
+            user: {
+                id: newCarer.id,
+                name: newCarer.name,
+                lastName: newCarer.lastName,
+                email: newCarer.email,
+                role: newCarer.role
+            }
+
+        })
 
     } catch (error) {
+        await transaction.rollback()
         console.error(error)
-        res.status(500).json({message: 'Error del servidor'})
+        res.status(500).json({
+            message: 'Error del servidor'
+        })
+
     }
+
 }
 
 
