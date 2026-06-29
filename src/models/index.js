@@ -2,9 +2,10 @@ const User = require('./User')
 const HealthRecord = require('./HealthRecord')
 
 // Relacion Autoreferencia del cuidador (Carer) - Se ejecuta sobre la misma tabla
+// Relación Paciente - Cuidador
 User.belongsTo(User, { 
     foreignKey: 'carerId', 
-    as: 'assignedCarer' 
+    as: 'carer' 
 })
 
 User.hasMany(User, {

@@ -18,12 +18,12 @@ const User = sequelize.define('User', {
     },
     dni: {
         type: DataTypes.STRING(20), // STRING por si incluye puntos o guiones
-        allowNull: false,
+        allowNull: true,
         unique: true
     },
     birthDate: {
         type: DataTypes.DATEONLY, // solo YYYY-MM-DD sin hora
-        allowNull: false
+        allowNull: true
     },
     email: {
         type: DataTypes.STRING,
@@ -49,7 +49,8 @@ const User = sequelize.define('User', {
         allowNull: true
     },
 
-    patientId: {
+    // SOLO PARA LOS PACIENTES !!!!!!!!!!!!!!!
+    carerId: {
         type: DataTypes.INTEGER,
         allowNull: true
     }
