@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Diego",
+    "lastName": "Comisso",
+    "dni": "30741099",
+    "birthDate": "1985-08-26",
+    "email": "diego@gmail.com",
+    "password": "123456",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "name": "Die",
+    "lastName": "Comis",
+    "dni": "30741092",
+    "birthDate": "1985-08-26",
+    "email": "diego2@gmail.com",
+    "password": "123456",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "name": "Dieg",
+    "lastName": "Comiss",
+    "dni": "30741093",
+    "birthDate": "1985-08-26",
+    "email": "diego3@gmail.com",
+    "password": "123456",
+    "role": "user"
+  }
+]

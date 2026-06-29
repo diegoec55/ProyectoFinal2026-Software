@@ -1,4 +1,6 @@
 const { Sequelize } = require('sequelize');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 // Configuración de la conexión con Sequelize
@@ -29,6 +31,29 @@ const testConnection = async () => {
     }
 };
 
+// Cargar datos iniciales (seed) para la tabla User
+const seedDatabase = async (User) => {
+    // Solo ejecutar en desarrollo
+    // if (process.env.NODE_ENV !== 'development') {
+    //     return;
+    // }
+        console.log("Iniciando seed");
+        
+    try {
+        const seedDataPath = path.join(__dirname, '../seed/userSeedData.json');
+        const seedData = JSON.parse(fs.readFileSync(seedDataPath, 'utf-8'));
 
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
+        // Limpiar tabla User
+        await User.destroy({ where: {}, truncate: true });
+        console.log('🗑️  Tabla User limpiada');
 
-module.exports = { sequelize, testConnection };
+        // Cargar datos
+        await User.bulkCreate(seedData);
+        console.log(`✓ Seed ejecutado: ${seedData.length} usuarios cargados`);
+    } catch (error) {
+        console.error('✗ Error al ejecutar seed:', error.message);
+    }
+};
+
+module.exports = { sequelize, testConnection, seedDatabase };

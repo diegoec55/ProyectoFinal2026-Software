@@ -4,7 +4,7 @@ const path = require('path')
 const cors = require('cors')
 
 // DB
-const { sequelize, testConnection } = require('./config/database')
+const { sequelize, testConnection, seedDatabase } = require('./config/database')
 const User = require('./models/User')
 
 // Carga relaciones
@@ -29,6 +29,9 @@ sequelize.sync()
 // sincronizar modelos (Cambiado a force: true temporalmente para resetear la base de datos)
 // sequelize.sync({ force: true }) 
 //     .then(() => console.log("Base de datos reseteada con los nuevos campos y relaciones"))
+
+// carga de datos iniciales seed
+seedDatabase(User)
 
 // API
 app.use('/api/auth', authRoutes)
