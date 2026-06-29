@@ -11,7 +11,7 @@ exports.getUser = async (req, res) => {
             // Traemos los datos basicos de su cuidador asociado
             include: {
                 model: User,
-                as: 'assignedCarer',
+                as: 'carer',
                 attributes: ['id', 'name', 'lastName', 'email'] 
             }
         })
@@ -43,6 +43,7 @@ exports.updateUser = async (req, res) => {
         user.birthDate = req.body.birthDate || user.birthDate
         user.illnesses = req.body.illnesses !== undefined ? req.body.illnesses : user.illnesses
         user.carerId = req.body.carerId !== undefined ? req.body.carerId : user.carerId
+        user.phone = req.body.phone || user.phone
 
         await user.save()
 
@@ -71,4 +72,56 @@ exports.getAllUsers = async (req, res) => {
         console.error(error)
         res.status(500).json({ message: 'Error del servidor al listar usuarios' })
     }
+}
+
+// cambiar contraseña
+exports.changePassword = async (req, res) => {
+
+    try {
+
+        const { currentPassword, newPassword } = req.body
+
+        const user = await User.findByPk(req.params.id)
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'Usuario no encontrado'
+            })
+        }
+
+        // Verificar contraseña actual
+        const validPassword = await user.validPassword(currentPassword)
+
+        if (!validPassword) {
+            return res.status(400).json({
+                message: 'La contraseña actual es incorrecta'
+            })
+        }
+
+        // Validar longitud minima
+        // if (newPassword.length < 8) {
+        //     return res.status(400).json({
+        //         message: 'La nueva contraseña debe tener al menos 8 caracteres'
+        //     })
+        // }
+
+        // Guardar nueva contraseña
+        user.password = newPassword
+
+        await user.save()
+
+        res.json({
+            message: 'Contraseña actualizada correctamente'
+        })
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            message: 'Error del servidor'
+        })
+
+    }
+
 }
