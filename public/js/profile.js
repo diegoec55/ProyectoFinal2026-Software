@@ -82,4 +82,55 @@ async function updateProfile() {
     }
 }
 
+async function changePassword() {
+
+    const currentPassword = document.getElementById('currentPassword').value
+    const newPassword = document.getElementById('newPassword').value
+    const confirmPassword = document.getElementById('confirmPassword').value
+
+    const message = document.getElementById('passwordMessage')
+
+    if (newPassword !== confirmPassword) {
+        message.textContent = 'Las contraseñas no coinciden'
+        message.style.color = 'red'
+        return
+    }
+
+    try {
+
+        const res = await fetch(`/api/users/${userId}/password`, {
+
+            method: 'PUT',
+
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+                currentPassword,
+                newPassword
+            })
+
+        })
+
+        const data = await res.json()
+
+        message.textContent = data.message
+        message.style.color = res.ok ? 'green' : 'red'
+
+        if (res.ok) {
+            document.getElementById('currentPassword').value = ''
+            document.getElementById('newPassword').value = ''
+            document.getElementById('confirmPassword').value = ''
+        }
+
+    } catch (error) {
+
+        message.textContent = 'Error de conexión'
+        message.style.color = 'red'
+
+    }
+
+}
+
 loadProfile()
