@@ -15,15 +15,23 @@
 
     <h1>Crear cuenta</h1>
     <form id="registerForm">
-        <input type="text" id="name" placeholder="Nombre" required/>
-        <input type="text" id="lastName" placeholder="Apellido" required/>
-        <input type="text" id="dni" placeholder="DNI (sin puntos)" required/>
-        
+        <input type="text" id="name" placeholder="Nombre" required />
+        <input type="text" id="lastName" placeholder="Apellido" required />
+        <input type="text" id="dni" placeholder="DNI (sin puntos)" required />
+
         <label for="birthDate" style="display: block; margin-top: 10px; font-size: 0.9rem;">Fecha de nacimiento:</label>
-        <input type="date" id="birthDate" required/>
-        
-        <input type="email" id="email" placeholder="Email" required/>
-        <input type="password" id="password" placeholder="Contraseña" required/>
+        <input type="date" id="birthDate" required />
+
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+
+        <div id="phone-group" style="display:none;">
+            <input type="text" id="phone" placeholder="Número de teléfono" />
+        </div>
+
+        <div id="patient-dni-group" style="display:none;">
+            <input type="text" id="patientDni" placeholder="DNI del paciente a cuidar" />
+        </div>
 
         <!-- SELECCIÓN DE ROL -->
         <label for="role" style="display: block; margin-top: 10px; font-size: 0.9rem;">Registrarse como:</label>
@@ -33,13 +41,14 @@
         </select>
 
         <!-- DETALLE DE ENFERMEDADES (Se puede ocultar con JS si eligen rol cuidador) -->
-        <textarea id="illnesses" placeholder="Detalle aquí sus enfermedades (opcional)" rows="4" style="margin-top: 15px; width: 100%; box-sizing: border-box;"></textarea>
+        <textarea id="illnesses" placeholder="Detalle aquí sus enfermedades (opcional)" rows="4"
+            style="margin-top: 15px; width: 100%; box-sizing: border-box;"></textarea>
 
         <button type="submit" style="margin-top: 15px;">Registrate</button>
     </form>
 
     <!-- Lugar para algun mensaje que se quiera infromar en register -->
-    <p id="message"></p> 
+    <p id="message"></p>
 
     <script src="/js/register.js"></script>
 </body>
