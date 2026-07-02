@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Hipertensión arterial",
+        "description": "Aumento crónico de la presión sanguínea en los vasos sanguíneos, principal factor de riesgo para problemas cardíacos."
+    },
+    {
+        "name": "Enfermedades cardiovasculares",
+        "description": "Incluyen insuficiencia cardíaca, arritmias y antecedentes de infartos o accidentes cerebrovasculares (ictus)."
+    },
+    {
+        "name": "Diabetes (Tipo 2)",
+        "description": "Alteración en los niveles de glucosa en sangre. Requiere control constante para evitar daño renal o visual."
+    },
+    {
+        "name": "Enfermedad de Alzheimer y otras demencias",
+        "description": "Trastornos neurodegenerativos que afectan la memoria, el pensamiento y la autonomía."
+    },
+    {
+        "name": "Artrosis y Artritis",
+        "description": "Afecciones crónicas que causan dolor, inflamación y pérdida de movilidad en las articulaciones."
+    },
+    {
+        "name": "Osteoporosis",
+        "description": "Disminución de la densidad ósea que hace que los huesos sean más frágiles y propensos a fracturas."
+    },
+    {
+        "name": "Enfermedad Pulmonar Obstructiva Crónica (EPOC)",
+        "description": "Afección inflamatoria pulmonar que causa dificultad para respirar, frecuentemente asociada al tabaquismo."
+    },
+    {
+        "name": "Depresión y aislamiento",
+        "description": "Problemas de salud mental y anímica, a menudo desencadenados por pérdidas o cambios en el estilo de vida."
+    },
+    {
+        "name": "Problemas visuales y auditivos",
+        "description": "Pérdida gradual de la audición (presbiacusia) y enfermedades oculares como cataratas o errores de refracción."
+    },
+    {
+        "name": "Síndromes geriátricos",
+        "description": "Incluyen problemas de incontinencia urinaria, caídas frecuentes o riesgo de fragilidad y desnutrición."
+    }
+]

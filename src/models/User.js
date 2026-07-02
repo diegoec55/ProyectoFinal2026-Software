@@ -39,11 +39,6 @@ const User = sequelize.define('User', {
         allowNull: false,
         defaultValue: 'user' // SOLO PARA PROBAR TODAS LAS OPCIONES NUEVAS, DESPUES CAMBIAR A SER!!!!!!
     },
-    illnesses: {
-        type: DataTypes.TEXT, // TEXT permite descripciones largas a diferencia de STRING
-        allowNull: true       // Opcional, por si el usuario no tiene enfermedades
-    },
-
     phone: {
         type: DataTypes.STRING(20),
         allowNull: true
