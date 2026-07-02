@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth.routes')
 const userRoutes = require('./routes/user.routes')
 const healthRoutes = require('./routes/health.routes')
 const carerRoutes = require('./routes/carer.routes')
+const illnessRoutes = require('./routes/illness.routes')
 
 //middlewares
 app.use(cors())
@@ -27,6 +28,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api', healthRoutes)
 app.use('/api/carers', carerRoutes)
+app.use('/api/illnesses', illnessRoutes)
 
 // ruta principal
 app.get('/', (req, res) => {
