@@ -11,21 +11,31 @@
   },
   {
     "id": 2,
-    "name": "Die",
-    "lastName": "Comis",
-    "dni": "30741092",
-    "birthDate": "1985-08-26",
-    "email": "diego2@gmail.com",
+    "name": "Flor",
+    "lastName": "Gomez",
+    "dni": "32555333",
+    "birthDate": "1987-01-05",
+    "email": "flor@gmail.com",
     "password": "123456",
     "role": "user"
   },
   {
     "id": 3,
-    "name": "Dieg",
-    "lastName": "Comiss",
-    "dni": "30741093",
-    "birthDate": "1985-08-26",
-    "email": "diego3@gmail.com",
+    "name": "Juan",
+    "lastName": "Perez",
+    "dni": "33555888",
+    "birthDate": "1988-02-05",
+    "email": "juan@gmail.com",
+    "password": "123456",
+    "role": "user"
+  },
+  {
+    "id": 4,
+    "name": "Pedro",
+    "lastName": "Gonzalez",
+    "dni": "28444666",
+    "birthDate": "1981-04-09",
+    "email": "pedro@gmail.com",
     "password": "123456",
     "role": "user"
   }

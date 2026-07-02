@@ -49,7 +49,9 @@ const seedDatabase = async (User) => {
         console.log('🗑️  Tabla User limpiada');
 
         // Cargar datos
-        await User.bulkCreate(seedData);
+        await User.bulkCreate(seedData, {
+            individualHooks: true
+        });
         console.log(`✓ Seed ejecutado: ${seedData.length} usuarios cargados`);
     } catch (error) {
         console.error('✗ Error al ejecutar seed:', error.message);
