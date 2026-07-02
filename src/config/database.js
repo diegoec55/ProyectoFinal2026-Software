@@ -31,8 +31,12 @@ const testConnection = async () => {
     }
 };
 
-// Cargar datos iniciales (seed) para la tabla User
-const seedDatabase = async (User) => {
+// ======================================================
+// Seed de la base de datos
+// ======================================================
+
+// Cargar datos iniciales (seed) para la tabla User e illnesses
+const seedDatabase = async ({User,Illness}) => {
     // Solo ejecutar en desarrollo
     // if (process.env.NODE_ENV !== 'development') {
     //     return;
@@ -40,19 +44,33 @@ const seedDatabase = async (User) => {
         console.log("Iniciando seed");
         
     try {
-        const seedDataPath = path.join(__dirname, '../seed/userSeedData.json');
-        const seedData = JSON.parse(fs.readFileSync(seedDataPath, 'utf-8'));
+        // Leer archivos JSON
+        const userSeedPath = path.join(__dirname, '../seed/userSeedData.json')
+        const illnessSeedPath = path.join(__dirname, '../seed/illnessSeedData.json')
 
+        const seedData = JSON.parse(fs.readFileSync(userSeedPath, 'utf-8'));
+        const illnessData = JSON.parse(fs.readFileSync(illnessSeedPath, 'utf8'))
+
+        // Desactivar claves foraneas para evitar error de carga
         await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
         // Limpiar tabla User
-        await User.destroy({ where: {}, truncate: true });
-        console.log('🗑️  Tabla User limpiada');
+        await User.destroy({ where: {}, truncate: true, force: true });
+        await Illness.destroy({ where: {}, truncate: true, force: true
+        })
+        console.log('🗑️  Tablas de la DB limpiadas');
 
-        // Cargar datos
-        await User.bulkCreate(seedData, {
-            individualHooks: true
-        });
-        console.log(`✓ Seed ejecutado: ${seedData.length} usuarios cargados`);
+        // Reactivar claves foráneas
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+
+        // Cargar enfermedades
+        await Illness.bulkCreate(illnessData)
+        console.log(`✓ ${illnessData.length} enfermedades cargadas`)
+
+        // Cargar usuarios
+        await User.bulkCreate(seedData, {individualHooks: true});
+        console.log(`✓ ${seedData.length} usuarios cargados`);
+        console.log('Seed finalizado correctamente')
+        
     } catch (error) {
         console.error('✗ Error al ejecutar seed:', error.message);
     }
