@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Hipertensión arterial",
+        "description": "Aumento crónico de la presión sanguínea en los vasos sanguíneos, principal factor de riesgo para problemas cardíacos.",
+        "notes": ""
+    },
+    {
+        "id": 2,
+        "name": "Enfermedades cardiovasculares",
+        "description": "Incluyen insuficiencia cardíaca, arritmias y antecedentes de infartos o accidentes cerebrovasculares (ictus).",
+        "notes": ""
+    },
+    {
+        "id": 3,
+        "name": "Diabetes (Tipo 2)",
+        "description": "Alteración en los niveles de glucosa en sangre. Requiere control constante para evitar daño renal o visual.",
+        "notes": ""
+    },
+    {
+        "id": 4,
+        "name": "Enfermedad de Alzheimer y otras demencias",
+        "description": "Trastornos neurodegenerativos que afectan la memoria, el pensamiento y la autonomía.",
+        "notes": ""
+    },
+    {
+        "id": 5,
+        "name": "Artrosis y Artritis",
+        "description": "Afecciones crónicas que causan dolor, inflamación y pérdida de movilidad en las articulaciones.",
+        "notes": ""
+    },
+    {
+        "id": 6,
+        "name": "Osteoporosis",
+        "description": "Disminución de la densidad ósea que hace que los huesos sean más frágiles y propensos a fracturas.",
+        "notes": ""
+    },
+    {
+        "id": 7,
+        "name": "Enfermedad Pulmonar Obstructiva Crónica (EPOC)",
+        "description": "Afección inflamatoria pulmonar que causa dificultad para respirar, frecuentemente asociada al tabaquismo.",
+        "notes": ""
+    },
+    {
+        "id": 8,
+        "name": "Depresión y aislamiento",
+        "description": "Problemas de salud mental y anímica, a menudo desencadenados por pérdidas o cambios en el estilo de vida.",
+        "notes": ""
+    },
+    {
+        "id": 9,
+        "name": "Problemas visuales y auditivos",
+        "description": "Pérdida gradual de la audición (presbiacusia) y enfermedades oculares como cataratas o errores de refracción.",
+        "notes": ""
+    },
+    {
+        "id": "10",
+        "name": "Síndromes geriátricos",
+        "description": "Incluyen problemas de incontinencia urinaria, caídas frecuentes o riesgo de fragilidad y desnutrición.",
+        "notes": ""
+    }
+]
