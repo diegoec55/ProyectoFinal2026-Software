@@ -53,14 +53,16 @@ const seedDatabase = async ({User,Illness}) => {
 
         // Desactivar claves foraneas para evitar error de carga
         await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
-        // Limpiar tabla User
-        await User.destroy({ where: {}, truncate: true, force: true });
-        await Illness.destroy({ where: {}, truncate: true, force: true
-        })
+        try {
+            // Limpiar tabla User
+            await Illness.destroy({ where: {}, truncate: true, force: true});
+            await User.destroy({ where: {}, truncate: true, force: true });
+        } finally {
+            // Reactivar claves foráneas
+            await sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+        }
         console.log('🗑️  Tablas de la DB limpiadas');
 
-        // Reactivar claves foráneas
-        await sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
 
         // Cargar enfermedades
         await Illness.bulkCreate(illnessData)
@@ -70,7 +72,7 @@ const seedDatabase = async ({User,Illness}) => {
         await User.bulkCreate(seedData, {individualHooks: true});
         console.log(`✓ ${seedData.length} usuarios cargados`);
         console.log('Seed finalizado correctamente')
-        
+
     } catch (error) {
         console.error('✗ Error al ejecutar seed:', error.message);
     }

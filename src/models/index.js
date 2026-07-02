@@ -53,7 +53,4 @@ Illness.belongsToMany(User, {
 
 // ======================================================
 
-module.exports = {
-    User,
-    HealthRecord
-}
+module.exports = {User, HealthRecord, Illness, UserIllness}
