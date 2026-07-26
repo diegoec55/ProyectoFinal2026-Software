@@ -1,7 +1,6 @@
 // IMPORTANTE: Importamos desde el index de modelos para tener las relaciones activas
 const { User, UserIllness } = require('../models')
 const { sequelize } = require('../config/database')
-const { Op } = require('sequelize')
 
 exports.register = async (req, res) => {
     // Agregamos todos los campos al req.body
@@ -75,6 +74,20 @@ exports.register = async (req, res) => {
             password,
             role: 'user', // por defecto es 'user'
         }, { transaction })
+
+        // Guardar enfermedades seleccionadas
+        if (selectedIllnesses && selectedIllnesses.length > 0) {
+            const illnessesToSave = selectedIllnesses.map(item => ({
+                user_id: newUser.id,
+                illness_id: item.illnessId,
+                notes: item.notes || ''
+            }))
+            await UserIllness.bulkCreate(
+                illnessesToSave,
+                { transaction }
+            )
+        }
+
         await transaction.commit()
 
         res.status(201).json({
@@ -88,17 +101,6 @@ exports.register = async (req, res) => {
             }
         })
 
-        if (selectedIllnesses && selectedIllnesses.length > 0) {
-        const illnessesToSave = selectedIllnesses.map(item => ({
-            user_id: newUser.id,
-            illness_id: item.illnessId,
-            notes: item.notes || ''
-        }))
-        await UserIllness.bulkCreate(
-            illnessesToSave,
-            { transaction }
-        )
-}
     }
     // Registro de CUIDADOR
         const patient = await User.findOne({
