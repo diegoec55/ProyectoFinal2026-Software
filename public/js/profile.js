@@ -61,7 +61,6 @@ async function updateProfile() {
     const lastName = document.getElementById('lastName').value
     const dni = document.getElementById('dni').value
     const birthDate = document.getElementById('birthDate').value
-    const illnesses = document.getElementById('illnesses') ? document.getElementById('illnesses').value : null
 
     // Estructurar el objeto a enviar al backend
     const updateData = {
