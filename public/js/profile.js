@@ -29,8 +29,25 @@ async function loadProfile() {
         }
 
         // Si es paciente, rellenar enfermedades
-        if (userRole !== 'carer' && user.illnesses) {
-            document.getElementById('illnesses').value = user.illnesses
+        if (userRole !== 'carer') {
+
+            const container = document.getElementById('illnesses-container')
+            container.innerHTML = ''
+            user.illnesses.forEach(illness => {
+
+                const div = document.createElement('div')
+
+                div.innerHTML = `
+            <h4>${illness.name}</h4>
+            <p>${illness.description}</p>
+            ${illness.UserIllness.notes
+                        ? `<p><strong>Observaciones:</strong> ${illness.UserIllness.notes}</p>`
+                        : ''
+                    }
+                <hr>
+            `
+                container.appendChild(div)
+            })
         }
 
     } catch (error) {
@@ -57,12 +74,12 @@ async function updateProfile() {
 
     try {
         const res = await fetch(`/api/users/${userId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updateData)
-            })
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateData)
+        })
 
         const data = await res.json()
 
