@@ -47,7 +47,11 @@ const User = sequelize.define('User', {
     // SOLO PARA LOS PACIENTES !!!!!!!!!!!!!!!
     carerId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
+        references: {
+            model: 'users',
+            key: 'id'
+        }
     }
 }, {
     timestamps: true,
