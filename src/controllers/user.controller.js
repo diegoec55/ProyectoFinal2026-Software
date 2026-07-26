@@ -1,5 +1,5 @@
 // importamos desde el index de modelos
-const { User } = require('../models/index') 
+const { User, Illness } = require('../models')
 
 // obtener usuario
 exports.getUser = async (req, res) => {
@@ -9,11 +9,22 @@ exports.getUser = async (req, res) => {
             // Ocultamos la contraseña por seguridad
             attributes: { exclude: ['password'] }, 
             // Traemos los datos basicos de su cuidador asociado
-            include: {
+            include: [
+            {
                 model: User,
                 as: 'carer',
                 attributes: ['id', 'name', 'lastName', 'email'] 
+            },
+
+            {
+                model: Illness,
+                as: 'illnesses',
+                attributes: ['id', 'name', 'description'],
+                    through: {
+                    attributes: ['notes']
+                }
             }
+        ]
         })
 
         if (!user) {
