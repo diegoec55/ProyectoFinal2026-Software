@@ -18,7 +18,7 @@ async function loadIllnesses() {
             const div = document.createElement('div')
             div.className = 'illness-item'
             div.innerHTML = `
-                <label style="display:block; margin-top:10px;">
+                <label style="display:block; cursor:pointer; margin-top:10px;">
                     <input
                         type="checkbox"
                         class="illness-checkbox"
@@ -26,7 +26,7 @@ async function loadIllnesses() {
                     <strong>${illness.name}</strong>
                 </label>
 
-                <small style="display:block; margin-left:20px; margin-bottom:8px;">
+                <small style="color:#666; display:block; margin-left:22px; margin-bottom:8px;">
                     ${illness.description}
                 </small>
 
@@ -138,7 +138,7 @@ form.addEventListener('submit', async (e) => {
                 email,
                 password,
                 role,
-                illnesses: selectedIllnesses,
+                selectedIllnesses,
                 phone: role === 'carer' ? phone : null,
                 patientDni: role === 'carer' ? patientDni : null
             })
