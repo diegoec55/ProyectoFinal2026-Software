@@ -60,11 +60,10 @@ async function loadIllnesses() {
     }
 }
 
-// Ocultar o mostrar el campo de enfermedades según el rol seleccionado
+// Ocultar o mostrar el campo de enfermedades según el rol
 roleSelect.addEventListener('change', () => {
     if (roleSelect.value === 'carer') {
         illnessesGroup.style.display = 'none'
-        illnessesTextarea.value = '' // Limpia el texto si había algo escrito
 
         phoneGroup.style.display = 'block'
         patientDniGroup.style.display = 'block'
@@ -80,7 +79,9 @@ roleSelect.addEventListener('change', () => {
 })
 // Ejecutar al cargar la pagina
 roleSelect.dispatchEvent(new Event('change'))
+loadIllnesses()
 
+//registro-----
 form.addEventListener('submit', async (e) => {
     e.preventDefault() // para evitar la recarga
 
@@ -92,7 +93,6 @@ form.addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
     const role = roleSelect.value
-    const illnesses = illnessesTextarea.value
     const phone = document.getElementById('phone').value
     const patientDni = document.getElementById('patientDni').value
 
@@ -110,6 +110,19 @@ form.addEventListener('submit', async (e) => {
 
     }
 
+     // Obtener enfermedades seleccionadas
+
+    const selectedIllnesses = []
+    document.querySelectorAll('.illness-checkbox:checked').forEach(checkbox => {
+        const note = document.querySelector(
+            `.illness-note[data-id="${checkbox.value}"]`
+        )
+        selectedIllnesses.push({
+            illnessId: Number(checkbox.value),
+            notes: note.value.trim()
+        })
+    })
+    console.log(selectedIllnesses)
 
     try {
         const res = await fetch('/api/auth/register', {
