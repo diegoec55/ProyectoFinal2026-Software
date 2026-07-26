@@ -1,11 +1,11 @@
 // IMPORTANTE: Importamos desde el index de modelos para tener las relaciones activas
-const { User } = require('../models/index')
+const { User, UserIllness } = require('../models')
 const { sequelize } = require('../config/database')
 const { Op } = require('sequelize')
 
 exports.register = async (req, res) => {
     // Agregamos todos los campos al req.body
-    const { name, lastName, dni, birthDate, email, password, role, illnesses, phone, patientDni } = req.body
+    const { name, lastName, dni, birthDate, email, password, role, selectedIllnesses, phone, patientDni } = req.body
 
     const transaction = await sequelize.transaction()
 
@@ -74,7 +74,6 @@ exports.register = async (req, res) => {
             email,
             password,
             role: 'user', // por defecto es 'user'
-            illnesses: illnesses || null
         }, { transaction })
         await transaction.commit()
 
@@ -88,6 +87,18 @@ exports.register = async (req, res) => {
                 role: newUser.role
             }
         })
+
+        if (selectedIllnesses && selectedIllnesses.length > 0) {
+        const illnessesToSave = selectedIllnesses.map(item => ({
+            user_id: newUser.id,
+            illness_id: item.illnessId,
+            notes: item.notes || ''
+        }))
+        await UserIllness.bulkCreate(
+            illnessesToSave,
+            { transaction }
+        )
+}
     }
     // Registro de CUIDADOR
         const patient = await User.findOne({
@@ -123,7 +134,6 @@ exports.register = async (req, res) => {
             password,
             role: 'carer',
             phone,
-            illnesses: null
         }, { transaction })
 
         patient.carerId = newCarer.id

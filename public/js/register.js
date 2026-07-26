@@ -138,7 +138,7 @@ form.addEventListener('submit', async (e) => {
                 email,
                 password,
                 role,
-                illnesses: role === 'user' ? illnesses : null, // Solo envia enfermedades si es usuario
+                illnesses: selectedIllnesses,
                 phone: role === 'carer' ? phone : null,
                 patientDni: role === 'carer' ? patientDni : null
             })

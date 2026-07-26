@@ -5,9 +5,12 @@ const UserIllness = sequelize.define('UserIllness',{
 
     notes:{
         type:DataTypes.TEXT,
-        allowNull:true
+        allowNull:true,
+        defaultValue: ''
     }
 
+    }, {
+    tableName: 'user_illnesses'
 })
 
 module.exports = UserIllness
