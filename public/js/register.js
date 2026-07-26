@@ -1,9 +1,64 @@
 const form = document.getElementById('registerForm')
 const roleSelect = document.getElementById('role')
 const illnessesGroup = document.getElementById('illnesses-group')
-const illnessesTextarea = document.getElementById('illnesses')
+const illnessesContainer = document.getElementById('illnesses-container')
 const phoneGroup = document.getElementById('phone-group')
 const patientDniGroup = document.getElementById('patient-dni-group')
+
+// Cargar enfermedades desde la base de datos
+
+async function loadIllnesses() {
+
+    try {
+        const res = await fetch('/api/illnesses')
+        const illnesses = await res.json()
+
+        illnessesContainer.innerHTML = ''
+        illnesses.forEach(illness => {
+            const div = document.createElement('div')
+            div.className = 'illness-item'
+            div.innerHTML = `
+                <label style="display:block; margin-top:10px;">
+                    <input
+                        type="checkbox"
+                        class="illness-checkbox"
+                        value="${illness.id}">
+                    <strong>${illness.name}</strong>
+                </label>
+
+                <small style="display:block; margin-left:20px; margin-bottom:8px;">
+                    ${illness.description}
+                </small>
+
+                <textarea
+                    class="illness-note"
+                    data-id="${illness.id}"
+                    placeholder="Observaciones (opcional)"
+                    rows="2"
+                    style="display:none; width:100%; margin-bottom:10px;">
+                </textarea>
+            `
+            illnessesContainer.appendChild(div)
+        })
+
+        // Mostrar u ocultar observaciones
+        document.querySelectorAll('.illness-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const textarea = document.querySelector(
+                    `.illness-note[data-id="${checkbox.value}"]`
+                )
+                textarea.style.display = checkbox.checked ? 'block' : 'none'
+
+                if (!checkbox.checked) {
+                    textarea.value = ''
+                }
+            })
+        })
+
+    } catch (error) {
+        console.error('Error al cargar enfermedades:', error)
+    }
+}
 
 // Ocultar o mostrar el campo de enfermedades según el rol seleccionado
 roleSelect.addEventListener('change', () => {
