@@ -77,8 +77,29 @@ exports.updateUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll({
-            attributes: { exclude: ['password'] } // Seguridad basica
+            attributes: { exclude: ['password'] }, // Seguridad basica
+            include: [
+                {
+                    model: User,
+                    as: 'carer',
+                    attributes: ['id', 'name', 'lastName', 'email']
+                },
+                {
+                    model: Illness,
+                    as: 'illnesses',
+                    attributes: ['id', 'name', 'description'],
+                    through: {
+                        attributes: ['notes']
+                    }
+                }
+            ],
+            order: [
+                ['role', 'ASC'],
+                ['lastName', 'ASC'],
+                ['name', 'ASC']
+            ]
         })
+
         res.json(users)
     } catch (error) {
         console.error(error)
