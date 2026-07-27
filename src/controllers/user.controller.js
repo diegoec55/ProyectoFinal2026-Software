@@ -1,5 +1,6 @@
 // importamos desde el index de modelos
 const { User, Illness } = require('../models')
+const { sequelize } = require('../config/database')
 
 // obtener usuario
 exports.getUser = async (req, res) => {

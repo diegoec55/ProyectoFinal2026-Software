@@ -9,7 +9,7 @@ router.get('/:id', controller.getUser)
 router.put('/:id/password', controller.changePassword)
 
 // baja logica
-router.put('/:id/deactivate', controller.deactivateUser)
+router.put('/:id/deactivate', controller.deleteUser)
 
 // actualizar usuario
 router.put('/:id', controller.updateUser)
