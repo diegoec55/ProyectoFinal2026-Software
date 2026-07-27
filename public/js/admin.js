@@ -151,6 +151,10 @@ async function editUser(id) {
     }
 }
 
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none'
+}
+
 function deleteUser(id) {
     console.log('Eliminar usuario', id)
 }
