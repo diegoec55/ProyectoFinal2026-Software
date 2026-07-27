@@ -180,6 +180,12 @@ exports.login = async (req, res) => {
 
         const user = await User.findOne({where: { email }})
 
+        if (!user.isActive) {
+            return res.status(403).json({
+            message: 'Esta cuenta fue dada de baja.'
+            })
+        }
+
         if (!user) {
             return res.status(404).json({message: 'Usuario no encontrado'})
         }
