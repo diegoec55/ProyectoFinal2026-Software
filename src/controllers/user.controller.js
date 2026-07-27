@@ -93,7 +93,7 @@ exports.getAllUsers = async (req, res) => {
                     }
                 }
             ],
-            order: [
+            order: [ //admin ve antes las cuentas en uso sin dejar de tener acceso a las desactivadas
                 ['role', 'ASC'],
                 ['lastName', 'ASC'],
                 ['name', 'ASC']
