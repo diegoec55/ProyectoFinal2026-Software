@@ -136,3 +136,68 @@ exports.changePassword = async (req, res) => {
     }
 
 }
+
+// Baja logica del usuario
+exports.deleteUser = async (req, res) => {
+
+    const transaction = await sequelize.transaction()
+
+    try {
+        const user = await User.findByPk(req.params.id, { transaction })
+
+        if (!user) {
+            await transaction.rollback()
+            return res.status(404).json({
+                message: 'Usuario no encontrado'
+            })
+        }
+
+        // Si es paciente, desvincular al cuidador
+        if (user.role === 'user') {
+            const carer = await User.findOne({
+                where: { id: user.carerId },
+                transaction
+            })
+
+            if (carer) {
+                user.carerId = null
+                await user.save({ transaction })
+            }
+        }
+
+        // Si es cuidador, desvincular todos sus pacientes
+        if (user.role === 'carer') {
+            await User.update(
+                { carerId: null },
+                {
+                    where: { carerId: user.id },
+                    transaction
+                }
+            )
+        }
+
+        // Anonimizar información personal
+        user.name = 'Usuario'
+        user.lastName = 'Eliminado'
+        user.email = `deleted_${user.id}@deleted.local`
+        user.password = 'usuario_eliminado'
+        user.dni = null
+        user.phone = null
+        user.isActive = false
+        user.deletedAt = new Date()
+
+        await user.save({ transaction })
+        await transaction.commit()
+
+        res.json({
+            message: 'Cuenta eliminada correctamente'
+        })
+
+    } catch (error) {
+        await transaction.rollback()
+        console.error(error)
+        res.status(500).json({
+            message: 'Error del servidor'
+        })
+    }
+}
