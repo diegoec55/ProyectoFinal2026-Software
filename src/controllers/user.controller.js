@@ -177,7 +177,7 @@ exports.deleteUser = async (req, res) => {
         }
 
         // Anonimizar información personal
-        user.name = 'Usuario'
+        user.name = `Usuario #${user.id}`
         user.lastName = 'Eliminado'
         user.email = `deleted_${user.id}@deleted.local`
         user.password = 'usuario_eliminado'
