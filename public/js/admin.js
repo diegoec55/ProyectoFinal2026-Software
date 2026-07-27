@@ -123,8 +123,32 @@ function renderUsersTable(users) {
     })
 }
 
-function editUser(id) {
-    console.log('Editar usuario', id)
+async function editUser(id) {
+    try {
+        const res = await fetch(`/api/users/${id}`)
+        const user = await res.json()
+
+        document.getElementById('edit-id').value = user.id
+        document.getElementById('edit-name').value = user.name || ''
+        document.getElementById('edit-lastName').value = user.lastName || ''
+        document.getElementById('edit-email').value = user.email || ''
+        document.getElementById('edit-dni').value = user.dni || ''
+        document.getElementById('edit-phone').value = user.phone || ''
+        document.getElementById('edit-role').value = user.role
+
+        if (user.birthDate) {
+            document.getElementById('edit-birthDate').value =
+                user.birthDate.split('T')[0]
+        } else {
+            document.getElementById('edit-birthDate').value = ''
+        }
+
+        document.getElementById('editModal').style.display = 'block'
+
+    } catch (error) {
+        console.error(error)
+        alert('Error al cargar el usuario.')
+    }
 }
 
 function deleteUser(id) {
