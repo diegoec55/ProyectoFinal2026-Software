@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/user.controller')
 
+// TODOS LOS USUARIOS
+router.get('/', controller.getAllUsers)
+
 // obtener usuario
 router.get('/:id', controller.getUser)
 

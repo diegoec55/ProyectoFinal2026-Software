@@ -18,13 +18,17 @@ async function initAdminPanel() {
         carersList = await carersRes.json()
 
         // 2. Cargar todos los usuarios (pacientes) para listarlos
-        const usersRes = await fetch('/api/users') 
+        const usersRes = await fetch('/api/users')
         const allUsers = await usersRes.json()
 
         // Filtrar para mostrar solo los que tengan rol 'user' (pacientes)
         const patients = allUsers.filter(u => u.role === 'user')
 
         renderManagementTable(patients)
+
+        //NUEVA TABLA DE TODOS LOS USUARIOS
+        renderUsersTable(allUsers)
+
     } catch (error) {
         console.error('Error inicializando panel de administración:', error)
     }
@@ -67,6 +71,66 @@ function renderManagementTable(patients) {
     })
 }
 
+// NUEVA TABLA
+function renderUsersTable(users) {
+    const tableBody = document.getElementById('users-table')
+    tableBody.innerHTML = ''
+
+    if (users.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align:center;">
+                    No hay usuarios registrados.
+                </td>
+            </tr>
+        `
+        return
+    }
+    users.forEach(user => {
+        // Estado del usuario
+        const status = user.isActive ? 'Activo' : 'Eliminado'
+        // Nombre del cuidador
+        const carer =
+            user.carer
+                ? `${user.carer.name} ${user.carer.lastName}`
+                : '-'
+        // Enfermedades
+        let illnesses = '-'
+        if (user.illnesses && user.illnesses.length > 0) {
+            illnesses = user.illnesses
+                .map(i => i.name)
+                .join(', ')
+        }
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name} ${user.lastName}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td>${status}</td>
+            <td>${carer}</td>
+            <td>${illnesses}</td>
+            <td>
+                <button onclick="editUser(${user.id})">
+                    Editar
+                </button>
+                <button onclick="deleteUser(${user.id})">
+                    Eliminar
+                </button>
+            </td>
+        `
+        tableBody.appendChild(tr)
+    })
+}
+
+function editUser(id) {
+    console.log('Editar usuario', id)
+}
+
+function deleteUser(id) {
+    console.log('Eliminar usuario', id)
+}
+
 async function assignCarer(patientId) {
     const selectElement = document.getElementById(`select-carer-${patientId}`)
     const selectedCarerId = selectElement.value || null // Si esta vacío mandamos null para desasignar
@@ -85,7 +149,7 @@ async function assignCarer(patientId) {
 
         const data = await res.json()
         const messageElement = document.getElementById('admin-message')
-        
+
         if (res.ok) {
             messageElement.textContent = `Cuidador actualizado con éxito para el paciente.`
             messageElement.style.color = 'green'
