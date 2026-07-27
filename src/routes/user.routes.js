@@ -11,4 +11,7 @@ router.put('/:id/password', controller.changePassword)
 // actualizar usuario
 router.put('/:id', controller.updateUser)
 
+// baja logica
+router.put('/:id/deactivate', controller.deactivateUser)
+
 module.exports = router
