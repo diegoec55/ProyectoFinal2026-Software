@@ -12,6 +12,7 @@ if (!currentUserId || currentUserRole !== 'admin') {
 let carersList = []
 
 async function initAdminPanel() {
+    carersList = []
     try {
         // 1. Cargar primero todos los cuidadores disponibles
         const carersRes = await fetch('/api/carers')
@@ -101,6 +102,26 @@ function renderUsersTable(users) {
                 .map(i => i.name)
                 .join(', ')
         }
+
+        let actions = `
+            <button onclick="editUser(${user.id})">
+                Editar
+            </button>
+        `
+
+                if (user.isActive) {
+                    actions += `
+                <button onclick="deleteUser(${user.id})">
+                    Eliminar
+                </button>
+            `
+                } else {
+                    actions += `
+                <button disabled>
+                    Eliminado
+                </button>
+            `
+        }
         const tr = document.createElement('tr')
         tr.innerHTML = `
             <td>${user.id}</td>
@@ -111,12 +132,7 @@ function renderUsersTable(users) {
             <td>${carer}</td>
             <td>${illnesses}</td>
             <td>
-                <button onclick="editUser(${user.id})">
-                    Editar
-                </button>
-                <button onclick="deleteUser(${user.id})">
-                    Eliminar
-                </button>
+                ${actions}
             </td>
         `
         tableBody.appendChild(tr)
