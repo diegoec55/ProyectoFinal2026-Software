@@ -192,8 +192,37 @@ async function saveUser() {
     }
 }
 
-function deleteUser(id) {
-    console.log('Eliminar usuario', id)
+async function deleteUser(id) {
+    const confirmar = confirm(
+        '¿Está seguro que desea eliminar este usuario?\n\nLa cuenta quedará desactivada y sus datos personales serán anonimizados.'
+    )
+
+    if (!confirmar) return
+    try {
+        const res = await fetch(`/api/users/${id}/deactivate`, {
+            method: 'PUT'
+        })
+
+        const data = await res.json()
+        const message = document.getElementById('admin-message')
+
+        if (res.ok) {
+            message.textContent = data.message
+            message.style.color = 'green'
+
+            // Recargar las tablas
+            initAdminPanel()
+
+        } else {
+            message.textContent = data.message
+            message.style.color = 'red'
+        }
+
+    } catch (error) {
+        console.error(error)
+        document.getElementById('admin-message').textContent =
+            'Error de conexión'
+    }
 }
 
 async function assignCarer(patientId) {
