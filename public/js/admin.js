@@ -155,6 +155,43 @@ function closeModal() {
     document.getElementById('editModal').style.display = 'none'
 }
 
+async function saveUser() {
+    const id = document.getElementById('edit-id').value
+    const updateData = {
+        name: document.getElementById('edit-name').value,
+        lastName: document.getElementById('edit-lastName').value,
+        email: document.getElementById('edit-email').value,
+        dni: document.getElementById('edit-dni').value,
+        birthDate: document.getElementById('edit-birthDate').value,
+        phone: document.getElementById('edit-phone').value,
+        role: document.getElementById('edit-role').value
+    }
+    try {
+        const res = await fetch(`/api/users/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateData)
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+
+        alert('Usuario actualizado correctamente.')
+        closeModal()
+        initAdminPanel()
+
+    } catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+
 function deleteUser(id) {
     console.log('Eliminar usuario', id)
 }
