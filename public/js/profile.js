@@ -149,4 +149,31 @@ async function changePassword() {
 
 }
 
+async function deleteAccount() {
+
+    const confirmar = confirm(
+        '¿Está seguro de que desea eliminar su cuenta? Esta acción no podrá deshacerse.'
+    )
+
+    if (!confirmar) return
+
+    try {
+        const res = await fetch(`/api/users/${userId}/deactivate`, {
+            method: 'PUT'
+        })
+
+        const data = await res.json()
+
+        alert(data.message)
+
+        if (res.ok) {
+            localStorage.clear()
+            window.location.href = '/login.html'
+        }
+
+    } catch (error) {
+        alert('Error de conexión')
+    }
+}
+
 loadProfile()

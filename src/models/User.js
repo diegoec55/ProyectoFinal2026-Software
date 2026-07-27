@@ -52,6 +52,15 @@ const User = sequelize.define('User', {
             model: 'users',
             key: 'id'
         }
+    },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+    },
+    deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true
     }
 }, {
     timestamps: true,
