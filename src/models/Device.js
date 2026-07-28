@@ -25,9 +25,9 @@ const Device = sequelize.define(
         },
 
         status: {
-            type: DataTypes.ENUM('active', 'inactive'),
+            type: DataTypes.ENUM('active', 'inactive', 'unassigned'),
             allowNull: false,
-            defaultValue: 'active'
+            defaultValue: 'unassigned'
         },
 
         last_connection: {
