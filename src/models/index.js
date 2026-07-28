@@ -25,7 +25,8 @@ User.hasMany(User, {
 User.hasMany(HealthRecord, {
     foreignKey: 'user_id',
     as: 'records',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 })
 
 HealthRecord.belongsTo(User, {
@@ -33,16 +34,16 @@ HealthRecord.belongsTo(User, {
     as: 'user'
 })
 
-// ======================================================
+// ======================================================1
 // Relación User - Device
 // Un usuario puede tener varios dispositivos.
 // Un dispositivo pertenece a un único usuario.
-// ======================================================1
 
 User.hasMany(Device, {
     foreignKey: 'user_id',
     as: 'devices',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 })
 
 Device.belongsTo(User, {
@@ -71,5 +72,23 @@ Illness.belongsToMany(User, {
 })
 
 // ======================================================
+
+// ======================================================1
+// Relación Device - HealthRecord
+// Un dispositivo genera muchos registros.
+// Un registro pertenece a un único dispositivo.
+
+Device.hasMany(HealthRecord, {
+    foreignKey: 'device_id',
+    as: 'records',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+
+HealthRecord.belongsTo(Device, {
+    foreignKey: 'device_id',
+    as: 'device'
+})
+// ======================================================2
 
 module.exports = {User, HealthRecord, Illness, UserIllness, Device}
