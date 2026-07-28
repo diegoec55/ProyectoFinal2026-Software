@@ -30,6 +30,7 @@ app.use('/api/users', userRoutes)
 app.use('/api', healthRoutes)
 app.use('/api/carers', carerRoutes)
 app.use('/api/illnesses', illnessRoutes)
+app.use('/api/devices', deviceRoutes);
 
 // ruta principal
 app.get('/', (req, res) => {
