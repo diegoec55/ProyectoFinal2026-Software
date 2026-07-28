@@ -33,7 +33,15 @@ const Device = sequelize.define(
         last_connection: {
             type: DataTypes.DATE,
             allowNull: true
-        }
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+            model: 'users',
+            key: 'id'
+            }
+        },
     },
     {
         tableName: 'devices',
@@ -42,4 +50,4 @@ const Device = sequelize.define(
     }
 );
 
-module.exports = Device;
+module.exports = Device
