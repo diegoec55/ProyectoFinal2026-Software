@@ -51,9 +51,10 @@ exports.updateUser = async (req, res) => {
         // Permitimos actualizar los campos personales, enfermedades y el cuidador asignado
         user.name = req.body.name ?? user.name
         user.lastName = req.body.lastName ?? user.lastName
+        user.email = req.body.email ?? user.email
+        user.role = req.body.role ?? user.role
         user.dni = req.body.dni ?? user.dni
         user.birthDate = req.body.birthDate ?? user.birthDate
-        user.illnesses = req.body.illnesses ?? user.illnesses
         user.carerId = req.body.carerId !== undefined ? req.body.carerId : user.carerId
         user.phone = req.body.phone ?? user.phone
 
@@ -93,7 +94,7 @@ exports.getAllUsers = async (req, res) => {
                     }
                 }
             ],
-            order: [
+            order: [ //admin ve antes las cuentas en uso sin dejar de tener acceso a las desactivadas
                 ['role', 'ASC'],
                 ['lastName', 'ASC'],
                 ['name', 'ASC']
