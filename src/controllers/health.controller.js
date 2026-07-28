@@ -43,16 +43,28 @@ exports.createRecord = async (req, res) => {
         }
         // ============================================2
 
+        // ============================================1
+        // Actualizar última conexión
+
+        device.last_connection = new Date();
+        await device.save();
+        // ============================================2
+
+        // Crear registro de salud
         const record = await HealthRecord.create({
-            user_id,
+            user_id: device.user_id,
             heart_rate,
             blood_oxygen,
             temperature,
-            fall_detected
-        })
+            fall_detected,
+            acc_x,
+            acc_y,
+            acc_z,
+            acc_magnitude
+        });
 
-        console.log('REGISTRO GUARDADO:')
-        console.log(record.toJSON())
+        console.log("REGISTRO GUARDADO");
+        console.log(record.toJSON());
 
         res.status(201).json({
             success: true,
