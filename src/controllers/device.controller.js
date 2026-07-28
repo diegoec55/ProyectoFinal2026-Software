@@ -63,12 +63,7 @@ exports.getDevice = async (req, res) => {
 exports.createDevice = async (req, res) => {
 
     try {
-        const {
-            serial_number,
-            name,
-            user_id,
-            status
-        } = req.body;
+        const {serial_number, name, user_id, status} = req.body;
         // Verificar que no exista otro dispositivo
         // con el mismo número de serie
         const existingDevice = await Device.findOne({
@@ -78,6 +73,13 @@ exports.createDevice = async (req, res) => {
         if (existingDevice) {
             return res.status(400).json({
                 message: 'El número de serie ya está registrado'
+            });
+        }
+
+        const user = await User.findByPk(user_id);
+        if (!user) {
+            return res.status(404).json({
+                message: 'Paciente no encontrado'
             });
         }
 
