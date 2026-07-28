@@ -163,7 +163,7 @@ exports.assignDevice = async (req, res) => {
 
         device.user_id = user.id;
         device.status = "active";
-        
+
         await device.save();
 
         res.json({
@@ -175,6 +175,38 @@ exports.assignDevice = async (req, res) => {
         console.error(error);
         res.status(500).json({
             message: "Error al asignar dispositivo"
+        });
+    }
+};
+
+// ======================================================
+// Desasignar dispositivo
+// ======================================================
+
+exports.unassignDevice = async (req, res) => {
+
+    try {
+        const device = await Device.findByPk(req.params.id);
+
+        if (!device) {
+            return res.status(404).json({
+                message: "Dispositivo no encontrado"
+            });
+        }
+
+        device.user_id = null;
+        device.status = "unassigned";
+
+        await device.save();
+
+        res.json({
+            message: "Dispositivo desasignado"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Error al desasignar dispositivo"
         });
     }
 };
