@@ -138,6 +138,47 @@ exports.updateDevice = async (req, res) => {
     }
 };
 
+// ======================================================
+// Asignar un dispositivo a un paciente
+// ======================================================
+
+exports.assignDevice = async (req, res) => {
+
+    try {
+        const device = await Device.findByPk(req.params.id);
+
+        if (!device) {
+            return res.status(404).json({
+                message: "Dispositivo no encontrado"
+            });
+        }
+
+        const user = await User.findByPk(req.body.user_id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "Paciente no encontrado"
+            });
+        }
+
+        device.user_id = user.id;
+        device.status = "active";
+        
+        await device.save();
+
+        res.json({
+            message: "Dispositivo asignado correctamente",
+            device
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Error al asignar dispositivo"
+        });
+    }
+};
+
 
 // ======================================================
 // Eliminar dispositivo
