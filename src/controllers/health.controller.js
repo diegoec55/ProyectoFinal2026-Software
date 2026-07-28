@@ -1,15 +1,47 @@
-const { HealthRecord } = require('../models')
+const { HealthRecord, Device } = require('../models')
 
 exports.createRecord = async (req, res) => {
     console.log(req.body)//////////////////////////////////////////////////prueba de error
     try {
         const {
-            user_id,
+            device_serial,
             heart_rate,
             blood_oxygen,
             temperature,
-            fall_detected
+            fall_detected,
+            acc_x,
+            acc_y,
+            acc_z,
+            acc_magnitude
         } = req.body
+
+        // ============================================1
+        // Buscar el dispositivo por número de serie
+
+        const device = await Device.findOne({
+            where: {
+                serial_number: device_serial
+            }
+        });
+
+        if (!device) {
+            return res.status(404).json({
+                success: false,
+                message: "Dispositivo no registrado"
+            });
+        }
+        // ============================================2
+
+        // ============================================1
+        // Verificar que tenga un paciente asignado
+
+        if (!device.user_id) {
+            return res.status(400).json({
+                success: false,
+                message: "El dispositivo no tiene un paciente asignado"
+            });
+        }
+        // ============================================2
 
         const record = await HealthRecord.create({
             user_id,
