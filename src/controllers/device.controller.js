@@ -76,11 +76,16 @@ exports.createDevice = async (req, res) => {
             });
         }
 
-        const user = await User.findByPk(user_id);
-        if (!user) {
-            return res.status(404).json({
-                message: 'Paciente no encontrado'
-            });
+        // Si se envía un usuario, verificar que exista
+        if (user_id) {
+
+            const user = await User.findByPk(user_id);
+
+            if (!user) {
+                return res.status(404).json({
+                    message: "Paciente no encontrado"
+                });
+            }
         }
 
         const device = await Device.create({
