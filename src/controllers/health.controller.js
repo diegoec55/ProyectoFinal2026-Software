@@ -53,6 +53,7 @@ exports.createRecord = async (req, res) => {
         // Crear registro de salud
         const record = await HealthRecord.create({
             user_id: device.user_id,
+            device_id: device.id,
             heart_rate,
             blood_oxygen,
             temperature,
