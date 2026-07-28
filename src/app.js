@@ -15,7 +15,7 @@ const userRoutes = require('./routes/user.routes')
 const healthRoutes = require('./routes/health.routes')
 const carerRoutes = require('./routes/carer.routes')
 const illnessRoutes = require('./routes/illness.routes')
-const deviceRoutes = require('./src/routes/device.routes');
+const deviceRoutes = require('./routes/device.routes');
 
 //middlewares
 app.use(cors())
