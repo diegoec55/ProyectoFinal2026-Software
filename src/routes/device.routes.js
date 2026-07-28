@@ -19,6 +19,12 @@ router.post('/', deviceController.createDevice);
 // PUT /api/devices/:id
 router.put('/:id', deviceController.updateDevice);
 
+// Asignar paciente
+router.put('/:id/assign', deviceController.assignDevice);
+
+// Desasignar paciente
+router.put('/:id/unassign', deviceController.unassignDevice);
+
 // ELIMINAR DISPOSITIVO
 // DELETE /api/devices/:id
 router.delete('/:id', deviceController.deleteDevice);
