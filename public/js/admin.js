@@ -10,9 +10,12 @@ if (!currentUserId || currentUserRole !== 'admin') {
 }
 
 let carersList = []
+let patientsList = []
 
 async function initAdminPanel() {
+
     carersList = []
+    
     try {
         // 1. Cargar primero todos los cuidadores disponibles
         const carersRes = await fetch('/api/carers')
@@ -25,9 +28,11 @@ async function initAdminPanel() {
         // Filtrar para mostrar solo los que tengan rol 'user' (pacientes)
         const patients = allUsers.filter(u => u.role === 'user')
 
-        renderManagementTable(patients)
+        // Guardamos la lista para usarla en la tabla de dispositivos
+        patientsList = patients
 
-        //NUEVA TABLA DE TODOS LOS USUARIOS
+        //tablas
+        renderManagementTable(patients)
         renderUsersTable(allUsers)
 
         //TABLA DISPOSITIVOS---------
@@ -166,9 +171,19 @@ function renderDevicesTable(devices) {
 
     devices.forEach(device => {
 
-        const patient = device.user
-            ? `${device.user.name} ${device.user.lastName}`
-            : 'Sin asignar'
+        let optionsHTML = '<option value="">-- Sin asignar --</option>'
+
+        patientsList.forEach(patient => {
+
+            const selected =
+                device.user_id === patient.id ? 'selected' : ''
+
+            optionsHTML += `
+                <option value="${patient.id}" ${selected}>
+                    ${patient.name} ${patient.lastName}
+                </option>
+            `
+        })
 
         const lastConnection = device.last_connection
             ? new Date(device.last_connection).toLocaleString()
@@ -180,10 +195,17 @@ function renderDevicesTable(devices) {
             <td>${device.id}</td>
             <td>${device.name}</td>
             <td>${device.serial_number}</td>
-            <td>${patient}</td>
+            <td>
+                <select id="device-user-${device.id}">
+                    ${optionsHTML}
+                </select>
+            </td>
             <td>${device.status}</td>
             <td>${lastConnection}</td>
             <td>
+                <button onclick="assignDevice(${device.id})">
+                    Asignar
+                </button>
                 <button onclick="editDevice(${device.id})">
                     Editar
                 </button>
