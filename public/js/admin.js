@@ -260,7 +260,6 @@ async function editDevice(id) {
         document.getElementById('device-serial').value = device.serial_number
         document.getElementById('device-status').value = device.status
         document.getElementById('deviceModal').style.display = 'block'
-
     }
     catch (error) {
         console.error(error)
@@ -373,5 +372,40 @@ async function assignCarer(patientId) {
         console.error('Error al asignar cuidador:', error)
     }
 }
+
+//Guardar dispositivo===1
+async function saveDevice() {
+    const id = document.getElementById('device-id').value
+    const deviceData = {
+        name: document.getElementById('device-name').value,
+        serial_number: document.getElementById('device-serial').value,
+        status: document.getElementById('device-status').value
+    }
+    const method = id ? 'PUT' : 'POST'
+    const url = id ? `/api/devices/${id}` : '/api/devices'
+    try {
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(deviceData)
+        })
+        const data = await res.json()
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+        alert(id ? 'Dispositivo actualizado.' : 'Dispositivo registrado.')
+
+        closeDeviceModal()
+        initAdminPanel()
+    }
+    catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+//Guardar dispositivo===2
 
 initAdminPanel()
