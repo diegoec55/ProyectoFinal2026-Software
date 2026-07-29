@@ -10,9 +10,12 @@ if (!currentUserId || currentUserRole !== 'admin') {
 }
 
 let carersList = []
+let patientsList = []
 
 async function initAdminPanel() {
+
     carersList = []
+    
     try {
         // 1. Cargar primero todos los cuidadores disponibles
         const carersRes = await fetch('/api/carers')
@@ -25,10 +28,18 @@ async function initAdminPanel() {
         // Filtrar para mostrar solo los que tengan rol 'user' (pacientes)
         const patients = allUsers.filter(u => u.role === 'user')
 
-        renderManagementTable(patients)
+        // Guardamos la lista para usarla en la tabla de dispositivos
+        patientsList = patients
 
-        //NUEVA TABLA DE TODOS LOS USUARIOS
+        //tablas
+        renderManagementTable(patients)
         renderUsersTable(allUsers)
+
+        //TABLA DISPOSITIVOS---------
+        const devicesRes = await fetch('/api/devices')
+        const devices = await devicesRes.json()
+
+        renderDevicesTable(devices)
 
     } catch (error) {
         console.error('Error inicializando panel de administración:', error)
@@ -139,6 +150,75 @@ function renderUsersTable(users) {
     })
 }
 
+// ===================================1
+// TABLA DE DISPOSITIVOS
+
+function renderDevicesTable(devices) {
+
+    const tableBody = document.getElementById('devices-table')
+    tableBody.innerHTML = ''
+
+    if (devices.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;">
+                    No hay dispositivos registrados.
+                </td>
+            </tr>
+        `
+        return
+    }
+
+    devices.forEach(device => {
+
+        let optionsHTML = '<option value="">-- Sin asignar --</option>'
+
+        patientsList.forEach(patient => {
+
+            const selected =
+                device.user_id === patient.id ? 'selected' : ''
+
+            optionsHTML += `
+                <option value="${patient.id}" ${selected}>
+                    ${patient.name} ${patient.lastName}
+                </option>
+            `
+        })
+
+        const lastConnection = device.last_connection
+            ? new Date(device.last_connection).toLocaleString()
+            : '-'
+
+        const tr = document.createElement('tr')
+
+        tr.innerHTML = `
+            <td>${device.id}</td>
+            <td>${device.name}</td>
+            <td>${device.serial_number}</td>
+            <td>
+                <select id="device-user-${device.id}">
+                    ${optionsHTML}
+                </select>
+            </td>
+            <td>${device.status}</td>
+            <td>${lastConnection}</td>
+            <td>
+                <button onclick="assignDevice(${device.id})">
+                    Asignar
+                </button>
+                <button onclick="editDevice(${device.id})">
+                    Editar
+                </button>
+                <button onclick="deleteDevice(${device.id})">
+                    Eliminar
+                </button>
+            </td>
+        `
+        tableBody.appendChild(tr)
+    })
+}
+// ===================================2
+
 async function editUser(id) {
     try {
         const res = await fetch(`/api/users/${id}`)
@@ -170,6 +250,45 @@ async function editUser(id) {
 function closeModal() {
     document.getElementById('editModal').style.display = 'none'
 }
+
+// ==============================1
+// MODAL DISPOSITIVOS
+
+function openDeviceModal() {
+
+    document.getElementById('deviceModalTitle').textContent = 'Registrar dispositivo'
+    document.getElementById('device-id').value = ''
+    document.getElementById('device-name').value = ''
+    document.getElementById('device-serial').value = ''
+    document.getElementById('device-status').value = 'unassigned'
+    document.getElementById('deviceModal').style.display = 'block'
+}
+
+function closeDeviceModal() {
+    document.getElementById('deviceModal').style.display = 'none'
+}
+// ==============================2
+
+
+//cargo los datos del dispositivo en el modal===1
+async function editDevice(id) {
+    try {
+        const res = await fetch(`/api/devices/${id}`)
+        const device = await res.json()
+
+        document.getElementById('deviceModalTitle').textContent = 'Editar dispositivo'
+        document.getElementById('device-id').value = device.id
+        document.getElementById('device-name').value = device.name
+        document.getElementById('device-serial').value = device.serial_number
+        document.getElementById('device-status').value = device.status
+        document.getElementById('deviceModal').style.display = 'block'
+    }
+    catch (error) {
+        console.error(error)
+        alert('Error al cargar el dispositivo.')
+    }
+}
+//cargo los datos del dispositivo en el modal===2
 
 async function saveUser() {
     const id = document.getElementById('edit-id').value
@@ -275,5 +394,117 @@ async function assignCarer(patientId) {
         console.error('Error al asignar cuidador:', error)
     }
 }
+
+//Guardar dispositivo===1
+async function saveDevice() {
+    const id = document.getElementById('device-id').value
+    const deviceData = {
+        name: document.getElementById('device-name').value,
+        serial_number: document.getElementById('device-serial').value,
+        status: document.getElementById('device-status').value
+    }
+    const method = id ? 'PUT' : 'POST'
+    const url = id ? `/api/devices/${id}` : '/api/devices'
+    try {
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(deviceData)
+        })
+        const data = await res.json()
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+        alert(id ? 'Dispositivo actualizado.' : 'Dispositivo registrado.')
+
+        closeDeviceModal()
+        initAdminPanel()
+    }
+    catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+//Guardar dispositivo===2
+
+//asignar dispositivo===1
+async function assignDevice(deviceId) {
+    
+    const select = document.getElementById(`device-user-${deviceId}`)
+    const userId = select.value
+
+    try {
+        let url
+        let method = 'PUT'
+        let body
+
+        if (userId) {
+            url = `/api/devices/${deviceId}/assign`
+            body = {
+                user_id: userId
+            }
+        } else {
+            url = `/api/devices/${deviceId}/unassign`
+            body = {}
+        }
+
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+
+        alert(data.message)
+        initAdminPanel()
+
+    } catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+//asignar dispositivo===2
+
+
+// =====================1
+// ELIMINAR DISPOSITIVO
+async function deleteDevice(id) {
+
+    const confirmar = confirm('¿Está seguro que desea eliminar este dispositivo?')
+
+    if (!confirmar) return
+
+    try {
+        const res = await fetch(`/api/devices/${id}`, {
+            method: 'DELETE'
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+
+        alert(data.message)
+        initAdminPanel()
+
+    } catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+// =====================1
 
 initAdminPanel()

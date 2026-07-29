@@ -11,6 +11,14 @@ const HealthRecord = sequelize.define('HealthRecord', {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
+    device_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'devices',
+            key: 'id'
+        }
+    },
     heart_rate: {
         type: DataTypes.INTEGER,
         allowNull: true

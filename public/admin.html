@@ -53,7 +53,6 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-
             <tbody id="users-table">
                 <!-- Se llena dinamicamente -->
             </tbody>
@@ -62,7 +61,36 @@
 
     <p id="admin-message" style="font-weight: bold; margin-top: 15px;"></p>
 
-    <!-- Modal de edición------------1------------ -->
+    <hr style="margin:40px 0;">
+
+    <!-- Device------------1------------ -->
+    <h2>Administración de Dispositivos</h2>
+
+    <button onclick="openDeviceModal()">
+        Registrar dispositivo
+    </button>
+
+    <div class="table-container">
+        <table border="1" style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr style="background:#f2f2f2;">
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>N° Serie</th>
+                    <th>Paciente</th>
+                    <th>Estado</th>
+                    <th>Última conexión</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="devices-table">
+                <!-- Se llena dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    <!-- Device------------2------------ -->
+
+    <!-- Modal de edición user------------1------------ -->
 
     <div id="editModal" style="
         display:none;
@@ -83,27 +111,19 @@
     ">
 
             <h2>Editar usuario</h2>
-
             <input type="hidden" id="edit-id">
-
             <label>Nombre</label>
             <input type="text" id="edit-name">
-
             <label>Apellido</label>
             <input type="text" id="edit-lastName">
-
             <label>Email</label>
             <input type="email" id="edit-email">
-
             <label>DNI</label>
             <input type="text" id="edit-dni">
-
             <label>Fecha nacimiento</label>
             <input type="date" id="edit-birthDate">
-
             <label>Teléfono</label>
             <input type="text" id="edit-phone">
-
             <label>Rol</label>
             <select id="edit-role">
                 <option value="user">Paciente</option>
@@ -118,6 +138,53 @@
         </div>
     </div>
     <!-- Modal de edición-------------2----------- -->
+
+    <!-- Modal de Dispositivos      1   -->
+
+    <div id="deviceModal" style="
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+    ">
+        <div style="
+        background:rgb(53,47,47);
+        width:500px;
+        margin:60px auto;
+        padding:20px;
+        border-radius:8px;
+        ">
+            <h2 id="deviceModalTitle">
+                Registrar dispositivo
+            </h2>
+            <input type="hidden" id="device-id">
+            <label>Nombre</label>
+            <input type="text" id="device-name">
+            <label>Número de serie</label>
+            <input type="text" id="device-serial">
+            <label>Estado</label>
+            <select id="device-status">
+                <option value="unassigned">
+                    Sin asignar
+                </option>
+                <option value="active">
+                    Activo
+                </option>
+                <option value="inactive">
+                    Inactivo
+                </option>
+            </select>
+
+            <br><br>
+            
+            <button onclick="saveDevice()">Guardar</button>
+            <button onclick="closeDeviceModal()">Cancelar</button>
+        </div>
+    </div>
+    <!-- Modal de Dispositivos      2   -->
 
     <script src="/js/admin.js"></script>
 </body>

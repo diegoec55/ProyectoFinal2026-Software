@@ -2,6 +2,7 @@ const User = require('./User')
 const HealthRecord = require('./HealthRecord')
 const Illness = require('./Illness')
 const UserIllness = require('./UserIllness')
+const Device = require('./Device')
 
 // Relación Paciente - Cuidador (Autorelación)
 // Un cuidador puede tener muchos pacientes
@@ -24,13 +25,32 @@ User.hasMany(User, {
 User.hasMany(HealthRecord, {
     foreignKey: 'user_id',
     as: 'records',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 })
 
 HealthRecord.belongsTo(User, {
     foreignKey: 'user_id',
     as: 'user'
 })
+
+// ======================================================1
+// Relación User - Device
+// Un usuario puede tener varios dispositivos.
+// Un dispositivo pertenece a un único usuario.
+
+User.hasMany(Device, {
+    foreignKey: 'user_id',
+    as: 'devices',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+
+Device.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+})
+// ======================================================2
 
 // Relación User - Illness (Muchos a Muchos)
 // Un usuario puede tener muchas enfermedades
@@ -53,4 +73,22 @@ Illness.belongsToMany(User, {
 
 // ======================================================
 
-module.exports = {User, HealthRecord, Illness, UserIllness}
+// ======================================================1
+// Relación Device - HealthRecord
+// Un dispositivo genera muchos registros.
+// Un registro pertenece a un único dispositivo.
+
+Device.hasMany(HealthRecord, {
+    foreignKey: 'device_id',
+    as: 'records',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+})
+
+HealthRecord.belongsTo(Device, {
+    foreignKey: 'device_id',
+    as: 'device'
+})
+// ======================================================2
+
+module.exports = {User, HealthRecord, Illness, UserIllness, Device}
