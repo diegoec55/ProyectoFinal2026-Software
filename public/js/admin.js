@@ -430,6 +430,53 @@ async function saveDevice() {
 }
 //Guardar dispositivo===2
 
+//asignar dispositivo===1
+async function assignDevice(deviceId) {
+    
+    const select = document.getElementById(`device-user-${deviceId}`)
+    const userId = select.value
+
+    try {
+        let url
+        let method = 'PUT'
+        let body
+
+        if (userId) {
+            url = `/api/devices/${deviceId}/assign`
+            body = {
+                user_id: userId
+            }
+        } else {
+            url = `/api/devices/${deviceId}/unassign`
+            body = {}
+        }
+
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+
+        alert(data.message)
+        initAdminPanel()
+
+    } catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+//asignar dispositivo===2
+
+
 // =====================1
 // ELIMINAR DISPOSITIVO
 async function deleteDevice(id) {
