@@ -30,6 +30,12 @@ async function initAdminPanel() {
         //NUEVA TABLA DE TODOS LOS USUARIOS
         renderUsersTable(allUsers)
 
+        //TABLA DISPOSITIVOS---------
+        const devicesRes = await fetch('/api/devices')
+        const devices = await devicesRes.json()
+
+        renderDevicesTable(devices)
+
     } catch (error) {
         console.error('Error inicializando panel de administración:', error)
     }
