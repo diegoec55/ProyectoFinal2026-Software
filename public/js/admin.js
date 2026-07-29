@@ -145,6 +145,58 @@ function renderUsersTable(users) {
     })
 }
 
+// ===================================1
+// TABLA DE DISPOSITIVOS
+
+function renderDevicesTable(devices) {
+
+    const tableBody = document.getElementById('devices-table')
+    tableBody.innerHTML = ''
+
+    if (devices.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;">
+                    No hay dispositivos registrados.
+                </td>
+            </tr>
+        `
+        return
+    }
+
+    devices.forEach(device => {
+
+        const patient = device.user
+            ? `${device.user.name} ${device.user.lastName}`
+            : 'Sin asignar'
+
+        const lastConnection = device.last_connection
+            ? new Date(device.last_connection).toLocaleString()
+            : '-'
+
+        const tr = document.createElement('tr')
+
+        tr.innerHTML = `
+            <td>${device.id}</td>
+            <td>${device.name}</td>
+            <td>${device.serial_number}</td>
+            <td>${patient}</td>
+            <td>${device.status}</td>
+            <td>${lastConnection}</td>
+            <td>
+                <button onclick="editDevice(${device.id})">
+                    Editar
+                </button>
+                <button onclick="deleteDevice(${device.id})">
+                    Eliminar
+                </button>
+            </td>
+        `
+        tableBody.appendChild(tr)
+    })
+}
+// ===================================2
+
 async function editUser(id) {
     try {
         const res = await fetch(`/api/users/${id}`)
