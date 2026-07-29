@@ -408,4 +408,34 @@ async function saveDevice() {
 }
 //Guardar dispositivo===2
 
+// =====================1
+// ELIMINAR DISPOSITIVO
+async function deleteDevice(id) {
+
+    const confirmar = confirm('¿Está seguro que desea eliminar este dispositivo?')
+
+    if (!confirmar) return
+
+    try {
+        const res = await fetch(`/api/devices/${id}`, {
+            method: 'DELETE'
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            alert(data.message)
+            return
+        }
+
+        alert(data.message)
+        initAdminPanel()
+
+    } catch (error) {
+        console.error(error)
+        alert('Error de conexión.')
+    }
+}
+// =====================1
+
 initAdminPanel()
