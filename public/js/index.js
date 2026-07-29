@@ -1,7 +1,6 @@
 // let heartRateChart
 // let oxygenChart
 let healthChart
-let updateInterval = null
 const currentUserId = localStorage.getItem('userId')
 const currentUserRole = localStorage.getItem('userRole')
 
@@ -26,8 +25,7 @@ async function init() {
     } else {
         // Si es paciente, monitorea sus propios datos inmediatamente
         document.getElementById('monitor-title').textContent = 'Última medición (Tus datos)'
-        loadData(currentUserId)
-        updateInterval = setInterval(() => loadData(currentUserId), 5000)
+        await loadData(currentUserId)
     }
 
     if (currentUserRole === 'admin') {
@@ -52,16 +50,17 @@ async function loadAssignedPatients() {
         })
 
         // Escuchar cuando el cuidador cambie de paciente en el desplegable
-        select.addEventListener('change', (e) => {
+        select.addEventListener('change', async (e) => {
+
             const selectedPatientId = e.target.value
-            
-            // Limpiar intervalos previos si existían
-            if (updateInterval) clearInterval(updateInterval)
 
             if (!selectedPatientId) {
                 document.getElementById('last-record').textContent = 'Por favor, seleccione un paciente para monitorear.'
                 document.getElementById('table-record').innerHTML = ''
-                if (healthChart) healthChart.destroy()
+
+                if (healthChart) {
+                    healthChart.destroy()
+                }
                 return
             }
 
@@ -69,8 +68,7 @@ async function loadAssignedPatients() {
             const selectedText = select.options[select.selectedIndex].text
             document.getElementById('monitor-title').textContent = `Última medición de: ${selectedText}`
             
-            loadData(selectedPatientId)
-            updateInterval = setInterval(() => loadData(selectedPatientId), 5000)
+            await loadData(selectedPatientId)
         })
 
     } catch (error) {
@@ -169,63 +167,3 @@ function crearGraficos(records) {
 }
 
 init()
-
-// function createChart(records) {
-
-//     const labels = records
-//         .slice()
-//         .reverse()
-//         .map(record => new Date(record.createdAt).toLocaleTimeString())
-
-//     const bpmData = records
-//         .slice()
-//         .reverse()
-//         .map(record => record.heart_rate)
-
-//     const oxygenData = records
-//         .slice()
-//         .reverse()
-//         .map(record => record.blood_oxygen)
-
-//     // BPM
-//     if (heartRateChart) {
-//         heartRateChart.destroy()
-//     }
-
-//     heartRateChart = new Chart(
-//         document.getElementById('heartRateChart'),
-//         {
-//             type: 'line',
-
-//             data: {
-//                 labels,
-
-//                 datasets: [{
-//                     label: 'BPM',
-//                     data: bpmData
-//                 }]
-//             }
-//         }
-//     )
-
-//     // Oxígeno
-//     if (oxygenChart) {
-//         oxygenChart.destroy()
-//     }
-
-//     oxygenChart = new Chart(
-//         document.getElementById('oxygenChart'),
-//         {
-//             type: 'line',
-
-//             data: {
-//                 labels,
-
-//                 datasets: [{
-//                     label: 'SpO₂ (%)',
-//                     data: oxygenData
-//                 }]
-//             }
-//         }
-//     )
-// }

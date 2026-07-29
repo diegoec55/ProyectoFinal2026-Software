@@ -1,4 +1,4 @@
-const { HealthRecord, Device } = require('../models')
+const { HealthRecord, Device, User } = require('../models')
 const notificationService = require('../services/notification.service')
 const fallStateService = require('../services/fallState.service');
 

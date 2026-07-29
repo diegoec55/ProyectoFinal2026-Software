@@ -38,5 +38,16 @@
     "email": "pedro@gmail.com",
     "password": "123456",
     "role": "user"
+  },
+  {
+    "id": 5,
+    "name": "Pepe",
+    "lastName": "Situ",
+    "dni": "11222333",
+    "birthDate": "1983-04-09",
+    "email": "pepe@gmail.com",
+    "password": "123456",
+    "role": "carer",
+    "phone": "3416869286"
   }
 ]
