@@ -41,7 +41,7 @@ const Device = sequelize.define(
             model: 'users',
             key: 'id'
             }
-        },
+        }
     },
     {
         tableName: 'devices',
