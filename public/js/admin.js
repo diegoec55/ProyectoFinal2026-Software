@@ -229,6 +229,46 @@ function closeModal() {
     document.getElementById('editModal').style.display = 'none'
 }
 
+// ==============================1
+// MODAL DISPOSITIVOS
+
+function openDeviceModal() {
+
+    document.getElementById('deviceModalTitle').textContent = 'Registrar dispositivo'
+    document.getElementById('device-id').value = ''
+    document.getElementById('device-name').value = ''
+    document.getElementById('device-serial').value = ''
+    document.getElementById('device-status').value = 'unassigned'
+    document.getElementById('deviceModal').style.display = 'block'
+}
+
+function closeDeviceModal() {
+    document.getElementById('deviceModal').style.display = 'none'
+}
+// ==============================2
+
+
+//cargo los datos del dispositivo en el modal===1
+async function editDevice(id) {
+    try {
+        const res = await fetch(`/api/devices/${id}`)
+        const device = await res.json()
+
+        document.getElementById('deviceModalTitle').textContent = 'Editar dispositivo'
+        document.getElementById('device-id').value = device.id
+        document.getElementById('device-name').value = device.name
+        document.getElementById('device-serial').value = device.serial_number
+        document.getElementById('device-status').value = device.status
+        document.getElementById('deviceModal').style.display = 'block'
+
+    }
+    catch (error) {
+        console.error(error)
+        alert('Error al cargar el dispositivo.')
+    }
+}
+//cargo los datos del dispositivo en el modal===2
+
 async function saveUser() {
     const id = document.getElementById('edit-id').value
     const updateData = {
