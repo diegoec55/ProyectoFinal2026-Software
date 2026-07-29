@@ -17,7 +17,8 @@
     "birthDate": "1987-01-05",
     "email": "flor@gmail.com",
     "password": "123456",
-    "role": "user"
+    "role": "user",
+    "carerId": 5
   },
   {
     "id": 3,
