@@ -121,6 +121,18 @@ exports.updateDevice = async (req, res) => {
             });
         }
 
+        const existingDevice = await Device.findOne({
+            where: {
+                serial_number: req.body.serial_number
+            }
+        })
+
+        if (existingDevice && existingDevice.id !== device.id) {
+            return res.status(400).json({
+                message: 'El número de serie ya está registrado'
+            })
+        }
+
         device.serial_number = req.body.serial_number ?? device.serial_number;
         device.name = req.body.name ?? device.name;
         device.user_id = req.body.user_id ?? device.user_id;
@@ -158,6 +170,12 @@ exports.assignDevice = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 message: "Paciente no encontrado"
+            });
+        }
+
+        if (device.user_id && device.user_id !== user.id) {
+            return res.status(400).json({
+                message: 'El dispositivo ya está asignado a otro paciente.'
             });
         }
 
@@ -225,6 +243,12 @@ exports.deleteDevice = async (req, res) => {
             return res.status(404).json({
                 message: 'Dispositivo no encontrado'
             });
+        }
+
+        if (device.user_id) {
+            return res.status(400).json({
+                message: 'Primero desasigne el dispositivo del paciente.'
+            })
         }
 
         await device.destroy();
