@@ -91,6 +91,26 @@
     </div>
     <!-- Device------------2------------ -->
 
+    <hr style="margin:40px 0;">
+    
+    <!-- Tabla caidas------------1------------ -->
+    <h2>Alertas de Caídas</h2>
+    <div class="table-container">
+        <table border="1" style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Paciente</th>
+                    <th>Frecuencia cardíaca (BPM)</th>
+                    <th>Saturación de oxígeno</th>
+                </tr>
+            </thead>
+            <tbody id="falls-table">
+            </tbody>
+        </table>
+    </div>
+    <!-- Tabla caidas------------1------------ -->
+
     <!-- Modal de edición user------------1------------ -->
 
     <div id="editModal" style="
@@ -180,12 +200,16 @@
             </select>
 
             <br><br>
-            
+
             <button onclick="saveDevice()">Guardar</button>
             <button onclick="closeDeviceModal()">Cancelar</button>
         </div>
     </div>
     <!-- Modal de Dispositivos      2   -->
+
+    <footer>
+        <p style="margin-top: 60px;">Proyecto Final 2026 - Diego Comisso</p>
+    </footer>
 
     <script src="/js/admin.js"></script>
 </body>

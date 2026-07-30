@@ -6,6 +6,9 @@ const healthController = require('../controllers/health.controller')
 router.post('/data', healthController.createRecord)
 
 // ENDPOINT MODIFICADO: Coincide con la peticion del frontend
-router.get('/health/user/:userId', healthController.getRecords)
+router.get('/user/:userId', healthController.getRecords)
+
+// ENDPOINT PARA LAS ALERTAS DE CAIDAS
+router.get('/alerts/falls', healthController.getFallAlerts)
 
 module.exports = router

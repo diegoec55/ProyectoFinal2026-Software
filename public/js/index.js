@@ -20,11 +20,10 @@ async function init() {
     if (currentUserRole === 'carer') {
         // Si es cuidador, mostramos el selector y cargamos sus pacientes
         document.getElementById('carer-section').style.display = 'block'
-        document.getElementById('last-record').textContent = 'Por favor, seleccione un paciente para monitorear.'
         await loadAssignedPatients()
     } else {
         // Si es paciente, monitorea sus propios datos inmediatamente
-        document.getElementById('monitor-title').textContent = 'Última medición (Tus datos)'
+        // document.getElementById('monitor-title').textContent = 'Última medición (Tus datos)'
         await loadData(currentUserId)
     }
 
@@ -57,7 +56,7 @@ async function loadAssignedPatients() {
             const selectedPatientId = e.target.value
 
             if (!selectedPatientId) {
-                document.getElementById('last-record').textContent = 'Por favor, seleccione un paciente para monitorear.'
+                document.getElementById('important-records').innerHTML = ''
                 document.getElementById('table-record').innerHTML = ''
 
                 if (healthChart) {
@@ -68,7 +67,7 @@ async function loadAssignedPatients() {
 
             // Cambiar titulo y activar bucle para el paciente elegido
             const selectedText = select.options[select.selectedIndex].text
-            document.getElementById('monitor-title').textContent = `Última medición de: ${selectedText}`
+            document.getElementById('monitor-title').textContent = `Paciente: ${selectedText}`
             
             await loadData(selectedPatientId)
         })
@@ -86,19 +85,26 @@ async function loadData(userId) {
         const records = await res.json()
 
         if (!records || !records.length) {
-            document.getElementById('last-record').textContent = 'No hay mediciones registradas.'
-            document.getElementById('table-record').innerHTML = ''
+            document.getElementById('important-records').innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        No hay eventos importantes.
+                    </td>
+                </tr>
+                `
+
+                document.getElementById('table-record').innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        No hay mediciones registradas.
+                    </td>
+                </tr>
+                `
             if (healthChart) healthChart.destroy()
             return
         }
 
-        const ultima = records[0]
-
-        document.getElementById('last-record').innerHTML = `
-            BPM: ${ultima.heart_rate}<br>
-            SpO₂: ${ultima.blood_oxygen}%<br>
-            Caída: ${ultima.fall_detected ? '<span style="color:red; background-color: coral; font-weight:bold;">Sí (Alerta)</span>' : 'No'}
-        `
+        renderImportantRecords(records)
 
         const table = document.getElementById('table-record')
         table.innerHTML = ''
@@ -121,6 +127,54 @@ async function loadData(userId) {
     } catch (error) {
         console.error('Error al cargar mediciones:', error)
     }
+}
+
+function renderImportantRecords(records) {
+
+    const table = document.getElementById('important-records')
+
+    table.innerHTML = ''
+
+    const important = records
+        .filter(r => r.fall_detected)
+
+    let result
+
+    if (important.length >= 10) {
+
+        result = important.slice(0,10)
+
+    } else {
+
+        const remaining = 10 - important.length
+
+        const lowOxygen = records
+            .filter(r => !r.fall_detected)
+            .sort((a,b) => a.blood_oxygen - b.blood_oxygen)
+            .slice(0, remaining)
+
+        result = [...important, ...lowOxygen]
+    }
+
+    result.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+
+    result.forEach(record=>{
+
+        const event = record.fall_detected
+            ? "Caída detectada"
+            : "Baja saturación"
+
+        table.innerHTML += `
+            <tr>
+                <td>${new Date(record.createdAt).toLocaleString()}</td>
+                <td>${record.heart_rate}</td>
+                <td>${record.blood_oxygen}%</td>
+                <td style="font-weight:bold;color:${record.fall_detected?'red':'orange'}">
+                    ${event}
+                </td>
+            </tr>
+        `
+    })
 }
 
 function crearGraficos(records) {

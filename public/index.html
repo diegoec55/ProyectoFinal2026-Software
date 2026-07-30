@@ -27,25 +27,47 @@
         </select>
     </div>
 
-    <h2 id="monitor-title">Última medición</h2>
-    <div id="last-record">Cargando...</div>
-
-    <h2>Historial</h2>
-    <div class="table-container">
+    <h2 id="monitor-title">Eventos importantes</h2>
+    <div class="table-container important-table">
         <table border="1">
             <thead>
                 <tr>
                     <th>Fecha y Hora</th>
                     <th>Frecuencia cardíaca (BPM)</th>
                     <th>Saturación de oxígeno</th>
-                    <th>Caída</th>
+                    <th>Evento</th>
                 </tr>
             </thead>
-            <tbody id="table-record"></tbody>
+            <tbody id="important-records"></tbody>
         </table>
     </div>
 
+    <hr style="margin:40px 0;">
+
+    <h2>Historial completo</h2>
+    <div class="history-table-gen">
+        <div class="table-container history-table">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Fecha y Hora</th>
+                        <th>Frecuencia cardíaca (BPM)</th>
+                        <th>Saturación de oxígeno</th>
+                        <th>Caída</th>
+                    </tr>
+                </thead>
+                <tbody id="table-record"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr style="margin:40px 0;">
+
     <canvas id="healthChart"></canvas>
+
+    <footer>
+        <p style="margin-top: 60px;">Proyecto Final 2026 - Diego Comisso</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/index.js"></script>

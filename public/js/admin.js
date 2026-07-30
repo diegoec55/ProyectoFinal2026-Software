@@ -39,7 +39,11 @@ async function initAdminPanel() {
         const devicesRes = await fetch('/api/devices')
         const devices = await devicesRes.json()
 
+        const alertsRes = await fetch('/api/health/alerts/falls')
+        const alerts = await alertsRes.json()
+
         renderDevicesTable(devices)
+        renderFallsTable(alerts)
 
     } catch (error) {
         console.error('Error inicializando panel de administración:', error)
@@ -505,6 +509,34 @@ async function deleteDevice(id) {
         alert('Error de conexión.')
     }
 }
-// =====================1
+// =====================2
+
+// ====alertas de caidas======1
+function renderFallsTable(alerts) {
+    const table = document.getElementById('falls-table')
+
+    table.innerHTML = ''
+    if (alerts.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    No hay alertas registradas.
+                </td>
+            </tr>
+        `
+        return
+    }
+    alerts.forEach(alert => {
+        table.innerHTML += `
+            <tr>
+                <td>${new Date(alert.createdAt).toLocaleString()}</td>
+                <td>${alert.user.name} ${alert.user.lastName}</td>
+                <td>${alert.heart_rate}</td>
+                <td>${alert.blood_oxygen} %</td>
+            </tr>
+        `
+    })
+}
+// ====alertas de caidas======2
 
 initAdminPanel()

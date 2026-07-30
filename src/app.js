@@ -27,7 +27,7 @@ testConnection()
 // API
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api', healthRoutes)
+app.use('/api/health', healthRoutes)
 app.use('/api/carers', carerRoutes)
 app.use('/api/illnesses', illnessRoutes)
 app.use('/api/devices', deviceRoutes);

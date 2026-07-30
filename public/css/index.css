@@ -42,3 +42,33 @@ tr:nth-child(even) {
     padding: 15px 30px;
     cursor: pointer;
 }
+
+.table-container{
+    overflow-x:auto;
+}
+
+.history-table-gen{
+    display: flex;
+    justify-content: center;
+}
+
+.history-table{
+    width: 85%;
+    max-height:350px;
+    overflow-y:auto;
+    border:1px solid #ccc;
+}
+
+.history-table table{
+    width:100%;
+}
+
+.history-table thead th{
+    position:sticky;
+    top:0;
+    background:#44a07e;
+}
+
+.important-table{
+    margin-bottom:30px;
+}

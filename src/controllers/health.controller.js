@@ -129,3 +129,28 @@ exports.getRecords = async (req, res) => {
         })
     }
 }
+
+// obtenemos solo las alertas de caidas para mostrar en admin.html
+exports.getFallAlerts = async (req, res) => {
+    try {
+        const alerts = await HealthRecord.findAll({
+            where: {
+                fall_detected: true
+            },
+            include: [{
+                model: User,
+                as: 'user',
+                attributes: ['name', 'lastName']
+            }],
+            order: [['createdAt', 'DESC']]
+        })
+
+        res.json(alerts)
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: 'Error al obtener alertas'
+        })
+    }
+}
