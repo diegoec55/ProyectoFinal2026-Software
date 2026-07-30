@@ -36,7 +36,7 @@ const testConnection = async () => {
 // ======================================================
 
 // Cargar datos iniciales (seed) para la tabla User e illnesses
-const seedDatabase = async ({User,Illness}) => {
+const seedDatabase = async ({User,Illness,Device,HealthRecord}) => {
     // Solo ejecutar en desarrollo
     // if (process.env.NODE_ENV !== 'development') {
     //     return;
@@ -47,14 +47,25 @@ const seedDatabase = async ({User,Illness}) => {
         // Leer archivos JSON
         const userSeedPath = path.join(__dirname, '../seed/userSeedData.json')
         const illnessSeedPath = path.join(__dirname, '../seed/illnessSeedData.json')
+        const deviceSeedPath = path.join(__dirname, '../seed/deviceSeedData.json')
+        const healthSeedPath = path.join(__dirname, '../seed/healthRecordSeedData.json')
 
-        const seedData = JSON.parse(fs.readFileSync(userSeedPath, 'utf-8'));
+        const users = JSON.parse(fs.readFileSync(userSeedPath, 'utf-8'));
         const illnessData = JSON.parse(fs.readFileSync(illnessSeedPath, 'utf8'))
-
+        const devices = JSON.parse(fs.readFileSync(deviceSeedPath, 'utf8'))
+        const healthRecords = JSON.parse(fs.readFileSync(healthSeedPath, 'utf8'))
+        console.log({
+    User: !!User,
+    Illness: !!Illness,
+    Device: !!Device,
+    HealthRecord: !!HealthRecord
+})
         // Desactivar claves foraneas para evitar error de carga
         await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
         try {
             // Limpiar tabla User
+            await HealthRecord.destroy({ where: {}, truncate: true, force: true})
+            await Device.destroy({ where: {}, truncate: true, force: true})
             await Illness.destroy({ where: {}, truncate: true, force: true});
             await User.destroy({ where: {}, truncate: true, force: true });
         } finally {
@@ -66,11 +77,22 @@ const seedDatabase = async ({User,Illness}) => {
 
         // Cargar enfermedades
         await Illness.bulkCreate(illnessData)
-        console.log(`✓ ${illnessData.length} enfermedades cargadas`)
+        //console.log(`✓ ${illnessData.length} enfermedades cargadas`)
+        console.log(`✓ enfermedades cargadas`)
 
         // Cargar usuarios
-        await User.bulkCreate(seedData, {individualHooks: true});
-        console.log(`✓ ${seedData.length} usuarios cargados`);
+        await User.bulkCreate(users, {individualHooks: true});
+        //console.log(`✓ ${users.length} usuarios cargados`);
+        console.log(`✓ usuarios cargados`);
+        
+        // cargar dispositivos
+        await Device.bulkCreate(devices)
+        console.log(`✓ dispositivos cargados`)
+
+        // cargar health.record de un paciente
+        await HealthRecord.bulkCreate(healthRecords)
+        console.log(`✓ healthRecords cargados`)
+
         console.log('Seed finalizado correctamente')
 
     } catch (error) {

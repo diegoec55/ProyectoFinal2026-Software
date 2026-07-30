@@ -22,7 +22,7 @@ exports.getAssignedPatients = async (req, res) => {
             include: {
                 model: User,
                 as: 'patients',
-                attributes: ['id', 'name', 'lastName', 'illnesses']
+                attributes: ['id', 'name', 'lastName']
             }
         })
 

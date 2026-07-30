@@ -1,0 +1,39 @@
+table {
+    border-color: rgb(48, 48, 48);
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #44a07e;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+}
+
+th, td {
+    border-bottom: 1px solid #b3afaf;
+}
+
+tr:hover {background-color: coral;}
+
+tr:nth-child(even) {background-color: #2b2b2b;}
+
+button {
+    width: 80%;
+    margin: 10px;
+    padding: 5px 10px;
+}
+
+.deleteBtn {
+    background-color: brown;
+}
+
+label {
+    display: block;
+}
+
+input {
+    text-align: center;
+}

@@ -1,4 +1,6 @@
-const { HealthRecord, Device } = require('../models')
+const { HealthRecord, Device, User } = require('../models')
+const notificationService = require('../services/notification.service')
+const fallStateService = require('../services/fallState.service');
 
 exports.createRecord = async (req, res) => {
     console.log(req.body)//////////////////////////////////////////////////prueba de error
@@ -21,7 +23,16 @@ exports.createRecord = async (req, res) => {
         const device = await Device.findOne({
             where: {
                 serial_number: device_serial
-            }
+            },
+            include: [{
+                model: User,
+                as: 'user',
+                include: [{
+                    model: User,
+                    as: 'carer',
+                    attributes: ['name', 'phone']
+                }]
+            }]
         });
 
         if (!device) {
@@ -63,6 +74,21 @@ exports.createRecord = async (req, res) => {
             acc_z,
             acc_magnitude
         });
+
+        const shouldNotify = fallStateService.shouldNotify(
+            device.id,
+            fall_detected
+        );
+
+        if (shouldNotify && device.user?.carer?.phone) {
+            await notificationService.sendWhatsApp(
+                device.user.carer.phone,
+                `🚨 ALERTA
+        Se detectó una posible caída del paciente:
+        ${device.user.name}
+        Verifique su estado lo antes posible.`
+            );
+        }
 
         console.log("REGISTRO GUARDADO");
         console.log(record.toJSON());

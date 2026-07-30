@@ -10,6 +10,17 @@
     "role": "admin"
   },
   {
+    "id": 5,
+    "name": "Pepe",
+    "lastName": "Situ",
+    "dni": "11222333",
+    "birthDate": "1983-04-09",
+    "email": "pepe@gmail.com",
+    "password": "123456",
+    "role": "carer",
+    "phone": "3416869286"
+  },
+  {
     "id": 2,
     "name": "Flor",
     "lastName": "Gomez",
@@ -17,7 +28,8 @@
     "birthDate": "1987-01-05",
     "email": "flor@gmail.com",
     "password": "123456",
-    "role": "user"
+    "role": "user",
+    "carerId": 5
   },
   {
     "id": 3,
