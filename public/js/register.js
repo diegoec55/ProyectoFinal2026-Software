@@ -18,7 +18,7 @@ async function loadIllnesses() {
             const div = document.createElement('div')
             div.className = 'illness-item'
             div.innerHTML = `
-                <label style="display:block; cursor:pointer; margin-top:10px;">
+                <label>
                     <input
                         type="checkbox"
                         class="illness-checkbox"
@@ -26,7 +26,7 @@ async function loadIllnesses() {
                     <strong>${illness.name}</strong>
                 </label>
 
-                <small style="color:#666; display:block; margin-left:22px; margin-bottom:8px;">
+                <small>
                     ${illness.description}
                 </small>
 
@@ -35,7 +35,7 @@ async function loadIllnesses() {
                     data-id="${illness.id}"
                     placeholder="Observaciones (opcional)"
                     rows="2"
-                    style="display:none; width:100%; margin-bottom:10px;">
+                    >
                 </textarea>
             `
             illnessesContainer.appendChild(div)

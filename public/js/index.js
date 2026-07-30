@@ -97,7 +97,6 @@ async function loadData(userId) {
         document.getElementById('last-record').innerHTML = `
             BPM: ${ultima.heart_rate}<br>
             SpO₂: ${ultima.blood_oxygen}%<br>
-            Temp: ${ultima.temperature}°C<br>
             Caída: ${ultima.fall_detected ? '<span style="color:red; background-color: coral; font-weight:bold;">Sí (Alerta)</span>' : 'No'}
         `
 
@@ -109,8 +108,7 @@ async function loadData(userId) {
                 <tr>
                     <td>${new Date(record.createdAt).toLocaleString()}</td>
                     <td>${record.heart_rate}</td>
-                    <td>${record.blood_oxygen}</td>
-                    <td>${record.temperature}</td>
+                    <td>${record.blood_oxygen} %</td>
                     <td style="color: ${record.fall_detected ? 'red' : 'inherit'}">
                         ${record.fall_detected ? 'Sí' : 'No'}
                     </td>

@@ -36,6 +36,7 @@ button, .button {
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .table-container {

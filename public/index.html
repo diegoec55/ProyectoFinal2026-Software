@@ -12,9 +12,9 @@
 <body>
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
         <a href="profile.html" class="button">Perfil</a>
-        <a href="admin.html" id="admin-panel-btn" class="button" style="display: none; background-color: #4a4a4a; color: white;">Panel Admin</a>
-        <!-- Boton para cerrar sesion de forma limpia -->
-        <button id="logout-btn" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Cerrar Sesión</button>
+        <a href="admin.html" id="admin-panel-btn" class="button">Panel Admin</a>
+        <!-- Boton para cerrar sesion -->
+        <button id="logout-btn">Cerrar Sesión</button>
     </div>
 
     <h1>Monitor de Salud</h1>
@@ -35,22 +35,15 @@
         <table border="1">
             <thead>
                 <tr>
-                    <th>Fecha</th>
-                    <th>BPM</th>
-                    <th>SpO₂</th>
-                    <th>Temperatura</th>
+                    <th>Fecha y Hora</th>
+                    <th>Frecuencia cardíaca (BPM)</th>
+                    <th>Saturación de oxígeno</th>
                     <th>Caída</th>
                 </tr>
             </thead>
             <tbody id="table-record"></tbody>
         </table>
     </div>
-
-    <!-- <h2>Gráfico BPM</h2>
-    <canvas id="heartRateChart"></canvas>
-
-    <h2>Gráfico SpO₂</h2>
-    <canvas id="oxygenChart"></canvas> -->
 
     <canvas id="healthChart"></canvas>
 

@@ -16,10 +16,6 @@ th, td {
     border-bottom: 1px solid #b3afaf;
 }
 
-tr:hover {
-    background-color: coral;
-}
-
 tr:nth-child(even) {
     background-color: #2b2b2b;
 }
@@ -30,4 +26,19 @@ tr:nth-child(even) {
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 5px;
+}
+
+#admin-panel-btn {
+    display: none;
+    background-color: #4a4a4a;
+    color: white;
+    text-decoration: none;
+}
+
+#logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
 }
