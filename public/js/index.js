@@ -38,7 +38,9 @@ async function loadAssignedPatients() {
     try {
         // Llamamos al endpoint que armamos en las rutas del carer
         const res = await fetch(`/api/carers/${currentUserId}/patients`)
+        console.log(res.status)
         const patients = await res.json()
+        console.log(patients)
         
         const select = document.getElementById('patient-select')
         
@@ -96,7 +98,7 @@ async function loadData(userId) {
             BPM: ${ultima.heart_rate}<br>
             SpO₂: ${ultima.blood_oxygen}%<br>
             Temp: ${ultima.temperature}°C<br>
-            Caída: ${ultima.fall_detected ? '<span style="color:red; font-weight:bold;">Sí (Alerta)</span>' : 'No'}
+            Caída: ${ultima.fall_detected ? '<span style="color:red; background-color: coral; font-weight:bold;">Sí (Alerta)</span>' : 'No'}
         `
 
         const table = document.getElementById('table-record')

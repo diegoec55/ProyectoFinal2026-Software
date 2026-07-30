@@ -7,7 +7,7 @@ const cors = require('cors')
 const { sequelize, testConnection, seedDatabase } = require('./config/database')
 
 // Importa todos los modelos desde index.js
-const { User, Illness } = require('./models')
+const { User, Illness, Device, HealthRecord } = require('./models')
 
 // rutas
 const authRoutes = require('./routes/auth.routes')
@@ -48,7 +48,7 @@ async function startServer() {
         await testConnection()
         await sequelize.sync({ force: true })
         console.log('✓ Base de datos sincronizada')
-        await seedDatabase({User,Illness})
+        await seedDatabase({User,Illness,Device,HealthRecord})
 
         app.listen(PORT, "0.0.0.0", () => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`)

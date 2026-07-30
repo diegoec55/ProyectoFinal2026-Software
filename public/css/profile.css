@@ -1,0 +1,12 @@
+label {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+#deleteAccountBtn {
+    margin-top: 40px;
+    background-color: brown;
+}

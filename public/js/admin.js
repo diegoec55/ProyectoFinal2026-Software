@@ -122,7 +122,7 @@ function renderUsersTable(users) {
 
                 if (user.isActive) {
                     actions += `
-                <button onclick="deleteUser(${user.id})">
+                <button class="deleteBtn" onclick="deleteUser(${user.id})">
                     Eliminar
                 </button>
             `
@@ -209,7 +209,7 @@ function renderDevicesTable(devices) {
                 <button onclick="editDevice(${device.id})">
                     Editar
                 </button>
-                <button onclick="deleteDevice(${device.id})">
+                <button class="deleteBtn" onclick="deleteDevice(${device.id})">
                     Eliminar
                 </button>
             </td>
