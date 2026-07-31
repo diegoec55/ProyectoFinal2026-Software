@@ -6,5 +6,12 @@
 		"status" : "active",
 		"last_connection" : "2026-07-30 01:08:09",
 		"user_id" : 2
+	},
+	{
+		"id" : 2,
+		"serial_number" : "DASF0424AFDC",
+		"name" : "ESP32",
+		"status" : "unassigned",
+		"last_connection" : "2026-07-31 01:08:09"
 	}
 ]

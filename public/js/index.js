@@ -212,7 +212,9 @@ function crearGraficos(records) {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Monitoreo de Signos Vitales'
+                        text: 'Monitoreo de Signos Vitales',
+                        color: 'white',
+                        font: { size: 20 }
                     }
                 }
             }
