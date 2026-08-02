@@ -55,11 +55,11 @@ const seedDatabase = async ({User,Illness,Device,HealthRecord}) => {
         const devices = JSON.parse(fs.readFileSync(deviceSeedPath, 'utf8'))
         const healthRecords = JSON.parse(fs.readFileSync(healthSeedPath, 'utf8'))
         console.log({
-    User: !!User,
-    Illness: !!Illness,
-    Device: !!Device,
-    HealthRecord: !!HealthRecord
-})
+            User: !!User,
+            Illness: !!Illness,
+            Device: !!Device,
+            HealthRecord: !!HealthRecord
+        })
         // Desactivar claves foraneas para evitar error de carga
         await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
         try {
