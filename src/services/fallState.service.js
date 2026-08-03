@@ -16,3 +16,8 @@ exports.shouldNotify = (deviceId, currentState) => {
     }
     return false;
 };
+
+// Solo para testing
+exports.reset = () => {
+    Object.keys(fallState).forEach(key => delete fallState[key]);
+};

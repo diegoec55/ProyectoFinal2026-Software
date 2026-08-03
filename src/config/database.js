@@ -1,42 +1,68 @@
 const { Sequelize } = require('sequelize');
 const path = require('path');
 const fs = require('fs');
-require('dotenv').config();
+const dotenv = require('dotenv');
 
-// Configuración de la conexión con Sequelize
-const sequelize = new Sequelize(
-    process.env.DB_NAME,      // Nombre de la base de datos
-    process.env.DB_USER,      // Usuario de MySQL
-    process.env.DB_PASSWORD,  // Contraseña de MySQL
-    {
-        host: process.env.DB_HOST,      // Host (localhost por defecto)
-        port: process.env.DB_PORT,      // Puerto (3306 por defecto)
-        dialect: 'mysql',               // Especifica que usamos MySQL
-        logging: console.log,           // Muestra las consultas SQL en consola (opcional)
+// Cargar variables de entorno
+dotenv.config({
+    path:
+        process.env.NODE_ENV === 'test'
+            ? '.env.test'
+            : '.env'
+});
+
+let sequelize;
+
+// Configuración según el ambiente
+if (process.env.NODE_ENV === 'test') {
+    console.log('🧪 Base de datos SQLite en memoria');
+    sequelize = new Sequelize({
+        dialect: 'sqlite',
+        storage: ':memory:',
+        logging: console.log,
         define: {
-            timestamps: true,             // Agrega createdAt y updatedAt automáticamente
-            underscored: true,            // Usa snake_case en la base de datos
-        },
-    }
-);
+            timestamps: true,
+            underscored: true
+        }
+    });
+} else {
+    console.log('💾 Base de datos MySQL');
+    sequelize = new Sequelize(
+        process.env.DB_NAME,
+        process.env.DB_USER,
+        process.env.DB_PASSWORD,
+        {
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            dialect: 'mysql',
+            logging: console.log,
+            define: {
+                timestamps: true,
+                underscored: true
+            }
+        }
+    );
+}
 
 // Probar la conexión a la base de datos
 const testConnection = async () => {
     try {
         await sequelize.authenticate();
-        console.log('✓ Conexión a MySQL establecida correctamente');
+        console.log(`✓ Conexión establecida (${process.env.NODE_ENV})`);
     } catch (error) {
-        console.error('✗ Error al conectar a MySQL:', error.message);
+        console.error(`✗ Error de conexión (${process.env.NODE_ENV})`, error.message);
         process.exit(1);
     }
 };
 
 // ======================================================
-// Seed de la base de datos
+// Seed de desarrollo
 // ======================================================
-
-// Cargar datos iniciales (seed) para la tabla User e illnesses
 const seedDatabase = async ({User,Illness,Device,HealthRecord}) => {
+    // Nunca ejecutar el seed durante los tests
+    if (process.env.NODE_ENV === 'test') {
+        return;
+    }
     // Solo ejecutar en desarrollo
     // if (process.env.NODE_ENV !== 'development') {
     //     return;
@@ -44,59 +70,87 @@ const seedDatabase = async ({User,Illness,Device,HealthRecord}) => {
         console.log("Iniciando seed");
         
     try {
-        // Leer archivos JSON
-        const userSeedPath = path.join(__dirname, '../seed/userSeedData.json')
-        const illnessSeedPath = path.join(__dirname, '../seed/illnessSeedData.json')
-        const deviceSeedPath = path.join(__dirname, '../seed/deviceSeedData.json')
-        const healthSeedPath = path.join(__dirname, '../seed/healthRecordSeedData.json')
 
-        const users = JSON.parse(fs.readFileSync(userSeedPath, 'utf-8'));
-        const illnessData = JSON.parse(fs.readFileSync(illnessSeedPath, 'utf8'))
-        const devices = JSON.parse(fs.readFileSync(deviceSeedPath, 'utf8'))
-        const healthRecords = JSON.parse(fs.readFileSync(healthSeedPath, 'utf8'))
-        console.log({
-            User: !!User,
-            Illness: !!Illness,
-            Device: !!Device,
-            HealthRecord: !!HealthRecord
-        })
-        // Desactivar claves foraneas para evitar error de carga
-        await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;');
+        const users = JSON.parse(
+            fs.readFileSync(
+                path.join(__dirname, '../seed/userSeedData.json'),
+                'utf8'
+            )
+        );
+
+        const illnesses = JSON.parse(
+            fs.readFileSync(
+                path.join(__dirname, '../seed/illnessSeedData.json'),
+                'utf8'
+            )
+        );
+
+        const devices = JSON.parse(
+            fs.readFileSync(
+                path.join(__dirname, '../seed/deviceSeedData.json'),
+                'utf8'
+            )
+        );
+
+        const healthRecords = JSON.parse(
+            fs.readFileSync(
+                path.join(__dirname, '../seed/healthRecordSeedData.json'),
+                'utf8'
+            )
+        );
+
+        // Solo MySQL necesita esto
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+
         try {
-            // Limpiar tabla User
-            await HealthRecord.destroy({ where: {}, truncate: true, force: true})
-            await Device.destroy({ where: {}, truncate: true, force: true})
-            await Illness.destroy({ where: {}, truncate: true, force: true});
-            await User.destroy({ where: {}, truncate: true, force: true });
+            await HealthRecord.destroy({
+                where: {},
+                truncate: true,
+                force: true
+            });
+
+            await Device.destroy({
+                where: {},
+                truncate: true,
+                force: true
+            });
+
+            await Illness.destroy({
+                where: {},
+                truncate: true,
+                force: true
+            });
+
+            await User.destroy({
+                where: {},
+                truncate: true,
+                force: true
+            });
+
         } finally {
-            // Reactivar claves foráneas
-            await sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+            await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
         }
-        console.log('🗑️  Tablas de la DB limpiadas');
 
+        console.log('🗑️ Base limpiada');
 
-        // Cargar enfermedades
-        await Illness.bulkCreate(illnessData)
-        //console.log(`✓ ${illnessData.length} enfermedades cargadas`)
-        console.log(`✓ enfermedades cargadas`)
+        await Illness.bulkCreate(illnesses);
+        console.log('✓ Enfermedades cargadas');
 
-        // Cargar usuarios
-        await User.bulkCreate(users, {individualHooks: true});
-        //console.log(`✓ ${users.length} usuarios cargados`);
-        console.log(`✓ usuarios cargados`);
-        
-        // cargar dispositivos
-        await Device.bulkCreate(devices)
-        console.log(`✓ dispositivos cargados`)
+        await User.bulkCreate(users, {
+            individualHooks: true
+        });
+        console.log('✓ Usuarios cargados');
 
-        // cargar health.record de un paciente
-        await HealthRecord.bulkCreate(healthRecords)
-        console.log(`✓ healthRecords cargados`)
+        await Device.bulkCreate(devices);
+        console.log('✓ Dispositivos cargados');
 
-        console.log('Seed finalizado correctamente')
+        await HealthRecord.bulkCreate(healthRecords);
+        console.log('✓ Historial cargado');
+
+        console.log('✓ Seed finalizado');
 
     } catch (error) {
-        console.error('✗ Error al ejecutar seed:', error.message);
+        console.error('Error en seed:', error.message);
     }
 };
 

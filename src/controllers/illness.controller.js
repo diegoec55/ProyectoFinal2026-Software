@@ -10,7 +10,7 @@ exports.getAllIllnesses = async (req, res) => {
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({message: 'Error del servidor'})
+        res.status(500).json({success: false, message: 'Error del servidor'})
     }
 
 }

@@ -10,7 +10,7 @@ exports.getAllCarers = async (req, res) => {
         res.json(carers)
     } catch (error) {
         console.error(error)
-        res.status(500).json({ message: 'Error del servidor' })
+        res.status(500).json({ success: false, message: 'Error del servidor' })
     }
 }
 
@@ -27,12 +27,12 @@ exports.getAssignedPatients = async (req, res) => {
         })
 
         if (!carer || carer.role !== 'carer') {
-            return res.status(404).json({ message: 'Cuidador no encontrado' })
+            return res.status(404).json({ success: false,message: 'Cuidador no encontrado' })
         }
 
         res.json(carer.patients)
     } catch (error) {
         console.error(error)
-        res.status(500).json({ message: 'Error del servidor' })
+        res.status(500).json({ success: false, message: 'Error del servidor' })
     }
 }
