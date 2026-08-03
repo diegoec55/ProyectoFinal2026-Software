@@ -13,6 +13,7 @@ exports.register = async (req, res) => {
         if (!name || !lastName || !email || !password) {
             await transaction.rollback()
             return res.status(400).json({
+                success: false,
                 message: 'Nombre, apellido, email y contraseña son requeridos'
             })
         }
@@ -22,6 +23,7 @@ exports.register = async (req, res) => {
             if (!dni || !birthDate) {
                 await transaction.rollback()
                 return res.status(400).json({
+                    success: false,
                     message: 'El paciente debe ingresar DNI y fecha de nacimiento.'
                 })
             }
@@ -32,6 +34,7 @@ exports.register = async (req, res) => {
             if (!phone || !patientDni) {
                 await transaction.rollback()
                 return res.status(400).json({
+                    success: false,
                     message: 'El cuidador debe ingresar teléfono y DNI del paciente.'
                 })
             }
@@ -46,6 +49,7 @@ exports.register = async (req, res) => {
         if (emailExists) {
             await transaction.rollback()
             return res.status(400).json({
+                success: false,
                 message: 'El email ya se encuentra registrado.'
             })
         }
@@ -61,6 +65,7 @@ exports.register = async (req, res) => {
             if (dniExists) {
                 await transaction.rollback()
                 return res.status(400).json({
+                    success: false,
                     message: 'El DNI ya se encuentra registrado.'
                 })
             }
@@ -90,7 +95,7 @@ exports.register = async (req, res) => {
 
         await transaction.commit()
 
-        res.status(201).json({
+        return res.status(201).json({
             message: 'Usuario creado exitosamente',
             user: {
                 id: newUser.id,
@@ -114,6 +119,7 @@ exports.register = async (req, res) => {
         if (!patient) {
             await transaction.rollback()
             return res.status(400).json({
+                success: false,
                 message: 'No existe un paciente con ese DNI.'
             })
         }
@@ -121,6 +127,7 @@ exports.register = async (req, res) => {
         if (patient.carerId) {
             await transaction.rollback()
             return res.status(400).json({
+                success: false,
                 message: 'Ese paciente ya tiene un cuidador asignado.'
             })
 
@@ -161,6 +168,7 @@ exports.register = async (req, res) => {
         await transaction.rollback()
         console.error(error)
         res.status(500).json({
+            success: false,
             message: 'Error del servidor'
         })
 
@@ -175,26 +183,32 @@ exports.login = async (req, res) => {
     try {
         // Validación básica
         if (!email || !password) {
-            return res.status(400).json({message: 'Email y contraseña son requeridos'})
+            return res.status(400).json({success: false,message: 'Email y contraseña son requeridos'})
         }
 
         const user = await User.findOne({where: { email }})
 
-        if (!user.isActive) {
-            return res.status(403).json({
-            message: 'Esta cuenta fue dada de baja.'
+        // Primero verificar si existe
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Usuario no encontrado'
             })
         }
 
-        if (!user) {
-            return res.status(404).json({message: 'Usuario no encontrado'})
+        // Después consultar sus propiedades
+        if (!user.isActive) {
+            return res.status(403).json({
+                success: false,
+                message: 'Esta cuenta fue dada de baja.'
+            })
         }
 
         // Comparar contraseña usando bcrypt
         const passwordValida = await user.validPassword(password)
 
         if (!passwordValida) {
-            return res.status(401).json({message: 'Contraseña incorrecta'})
+            return res.status(401).json({success: false,message: 'Contraseña incorrecta'})
         }
 
         res.status(200).json({
@@ -210,6 +224,6 @@ exports.login = async (req, res) => {
         
     } catch (error) {
         console.error(error)
-        res.status(500).json({message: 'Error del servidor'})
+        res.status(500).json({success: false,message: 'Error del servidor'})
     }
 }

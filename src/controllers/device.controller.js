@@ -20,6 +20,7 @@ exports.getDevices = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: 'Error al obtener los dispositivos'
         });
     }
@@ -42,6 +43,7 @@ exports.getDevice = async (req, res) => {
         });
         if (!device) {
             return res.status(404).json({
+                success: false,
                 message: 'Dispositivo no encontrado'
             });
         }
@@ -50,6 +52,7 @@ exports.getDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: 'Error al obtener el dispositivo'
         });
     }
@@ -72,6 +75,7 @@ exports.createDevice = async (req, res) => {
 
         if (existingDevice) {
             return res.status(400).json({
+                success: false,
                 message: 'El número de serie ya está registrado'
             });
         }
@@ -83,6 +87,7 @@ exports.createDevice = async (req, res) => {
 
             if (!user) {
                 return res.status(404).json({
+                    success: false,
                     message: "Paciente no encontrado"
                 });
             }
@@ -100,6 +105,7 @@ exports.createDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: 'Error al crear el dispositivo'
         });
     }
@@ -117,20 +123,26 @@ exports.updateDevice = async (req, res) => {
 
         if (!device) {
             return res.status(404).json({
+                success: false,
                 message: 'Dispositivo no encontrado'
             });
         }
 
-        const existingDevice = await Device.findOne({
-            where: {
-                serial_number: req.body.serial_number
-            }
-        })
+        let existingDevice = null;
 
-        if (existingDevice && existingDevice.id !== device.id) {
-            return res.status(400).json({
-                message: 'El número de serie ya está registrado'
-            })
+        if (req.body.serial_number) {
+            existingDevice = await Device.findOne({
+                where: {
+                    serial_number: req.body.serial_number
+                }
+            });
+
+            if (existingDevice && existingDevice.id !== device.id) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'El número de serie ya está registrado'
+                });
+            }
         }
 
         device.serial_number = req.body.serial_number ?? device.serial_number;
@@ -145,6 +157,7 @@ exports.updateDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: 'Error al actualizar el dispositivo'
         });
     }
@@ -161,6 +174,7 @@ exports.assignDevice = async (req, res) => {
 
         if (!device) {
             return res.status(404).json({
+                success: false,
                 message: "Dispositivo no encontrado"
             });
         }
@@ -169,12 +183,14 @@ exports.assignDevice = async (req, res) => {
 
         if (!user) {
             return res.status(404).json({
+                success: false,
                 message: "Paciente no encontrado"
             });
         }
 
         if (device.user_id && device.user_id !== user.id) {
             return res.status(400).json({
+                success: false,
                 message: 'El dispositivo ya está asignado a otro paciente.'
             });
         }
@@ -192,6 +208,7 @@ exports.assignDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: "Error al asignar dispositivo"
         });
     }
@@ -208,6 +225,7 @@ exports.unassignDevice = async (req, res) => {
 
         if (!device) {
             return res.status(404).json({
+                success: false,
                 message: "Dispositivo no encontrado"
             });
         }
@@ -224,6 +242,7 @@ exports.unassignDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: "Error al desasignar dispositivo"
         });
     }
@@ -241,12 +260,14 @@ exports.deleteDevice = async (req, res) => {
 
         if (!device) {
             return res.status(404).json({
+                success: false,
                 message: 'Dispositivo no encontrado'
             });
         }
 
         if (device.user_id) {
             return res.status(400).json({
+                success: false,
                 message: 'Primero desasigne el dispositivo del paciente.'
             })
         }
@@ -260,6 +281,7 @@ exports.deleteDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             message: 'Error al eliminar el dispositivo'
         });
     }

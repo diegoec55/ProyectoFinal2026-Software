@@ -29,13 +29,13 @@ exports.getUser = async (req, res) => {
         })
 
         if (!user) {
-            return res.status(404).json({message: 'Usuario no encontrado'})
+            return res.status(404).json({success: false, message: 'Usuario no encontrado'})
         }
         res.json(user)
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({message: 'Error del servidor'})
+        res.status(500).json({success: false, message: 'Error del servidor'})
     }
 }
 
@@ -46,7 +46,7 @@ exports.updateUser = async (req, res) => {
         const user = await User.findByPk(req.params.id)
 
         if (!user) {
-            return res.status(404).json({message: 'Usuario no encontrado'})
+            return res.status(404).json({success: false, message: 'Usuario no encontrado'})
         }
         // Permitimos actualizar los campos personales, enfermedades y el cuidador asignado
         user.name = req.body.name ?? user.name
@@ -70,7 +70,7 @@ exports.updateUser = async (req, res) => {
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({message: 'Error del servidor'})
+        res.status(500).json({success: false, message: 'Error del servidor'})
     }
 }
 
@@ -104,7 +104,7 @@ exports.getAllUsers = async (req, res) => {
         res.json(users)
     } catch (error) {
         console.error(error)
-        res.status(500).json({ message: 'Error del servidor al listar usuarios' })
+        res.status(500).json({success: false, message: 'Error del servidor al listar usuarios' })
     }
 }
 
@@ -119,6 +119,7 @@ exports.changePassword = async (req, res) => {
 
         if (!user) {
             return res.status(404).json({
+                success: false,
                 message: 'Usuario no encontrado'
             })
         }
@@ -128,6 +129,7 @@ exports.changePassword = async (req, res) => {
 
         if (!validPassword) {
             return res.status(400).json({
+                success: false,
                 message: 'La contraseña actual es incorrecta'
             })
         }
@@ -153,6 +155,7 @@ exports.changePassword = async (req, res) => {
         console.error(error)
 
         res.status(500).json({
+            success: false,
             message: 'Error del servidor'
         })
 
@@ -171,6 +174,7 @@ exports.deleteUser = async (req, res) => {
         if (!user) {
             await transaction.rollback()
             return res.status(404).json({
+                success: false,
                 message: 'Usuario no encontrado'
             })
         }
@@ -220,6 +224,7 @@ exports.deleteUser = async (req, res) => {
         await transaction.rollback()
         console.error(error)
         res.status(500).json({
+            success: false,
             message: 'Error del servidor'
         })
     }
