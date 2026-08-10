@@ -1,0 +1,127 @@
+<mxfile host="Electron">
+  <diagram id="XH4guFEjIg9cqkSL0wRo" name="Página-1">
+    <mxGraphModel dx="644" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" value="Esquema de conexiones: ESP32 + MAX30102 + MPU6050" vertex="1">
+          <mxGeometry height="40" width="650" x="265" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="esp32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=16;verticalAlign=top;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ESP32 DEVKIT V1&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="280" width="180" x="500" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="esp_3v3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="3.3V" vertex="1">
+          <mxGeometry height="40" width="80" x="550" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="esp_gnd" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="GND" vertex="1">
+          <mxGeometry height="40" width="80" x="550" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="esp_sda" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="GPIO 21&#xa;SDA" vertex="1">
+          <mxGeometry height="50" width="80" x="550" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="esp_scl" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="GPIO 22&#xa;SCL" vertex="1">
+          <mxGeometry height="50" width="80" x="550" y="389" as="geometry" />
+        </mxCell>
+        <mxCell id="max_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=16;verticalAlign=top;" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;MAX30102&lt;/span&gt; " vertex="1">
+          <mxGeometry height="250" width="160" x="300" y="189" as="geometry" />
+        </mxCell>
+        <mxCell id="max_vin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="VIN / VCC" vertex="1">
+          <mxGeometry height="40" width="90" x="335" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="max_gnd" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="GND" vertex="1">
+          <mxGeometry height="40" width="70" x="345" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="max_sda" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SDA" vertex="1">
+          <mxGeometry height="40" width="70" x="345" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="max_scl" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SCL" vertex="1">
+          <mxGeometry height="40" width="70" x="345" y="379" as="geometry" />
+        </mxCell>
+        <mxCell id="mpu_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=16;verticalAlign=top;" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;MPU6050&lt;/span&gt; " vertex="1">
+          <mxGeometry height="250" width="160" x="720" y="189" as="geometry" />
+        </mxCell>
+        <mxCell id="mpu_vcc" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="VCC" vertex="1">
+          <mxGeometry height="40" width="80" x="760" y="229" as="geometry" />
+        </mxCell>
+        <mxCell id="mpu_gnd" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="GND" vertex="1">
+          <mxGeometry height="40" width="80" x="760" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="mpu_sda" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SDA" vertex="1">
+          <mxGeometry height="40" width="80" x="760" y="329" as="geometry" />
+        </mxCell>
+        <mxCell id="mpu_scl" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SCL" vertex="1">
+          <mxGeometry height="40" width="80" x="760" y="379" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="max_vin" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="esp_3v3" value="3.3 V">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="250" />
+            </Array>
+            <mxPoint x="320" y="200.0344827586208" as="sourcePoint" />
+            <mxPoint x="540" y="240.00000000000003" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="max_sda" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0.963;exitY=0.758;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitPerimeter=0;" target="esp_sda" value="SDA">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="350" as="sourcePoint" />
+            <mxPoint x="540" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="max_scl" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="esp_scl" value="SCL">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="399" />
+              <mxPoint x="540" y="400" />
+              <mxPoint x="550" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="mpu_vcc" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="esp_3v3" value="3.3 V">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="250" />
+            </Array>
+            <mxPoint x="769.9999999999998" y="200.0344827586208" as="sourcePoint" />
+            <mxPoint x="540" y="240.00000000000003" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="mpu_sda" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" target="esp_sda" value="SDA">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="350" as="sourcePoint" />
+            <mxPoint x="540" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="mpu_scl" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="esp_scl" value="SCL">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="399" />
+              <mxPoint x="630" y="400" />
+            </Array>
+            <mxPoint x="780" y="459" as="sourcePoint" />
+            <mxPoint x="570" y="469" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=15;" value="Ambos sensores comparten el bus I²C:&#xa;SDA → GPIO 21&#xa;SCL → GPIO 22&#xa;Alimentación → 3.3 V&#xa;Tierra → GND" vertex="1">
+          <mxGeometry height="140" width="400" x="390" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="mPzuV3eKZHV9qwOqXle3-2" edge="1" parent="1" source="mpu_gnd" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="esp_gnd" value="GND">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="300" />
+              <mxPoint x="760" y="300" />
+            </Array>
+            <mxPoint x="910" y="250" as="sourcePoint" />
+            <mxPoint x="640" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mPzuV3eKZHV9qwOqXle3-3" edge="1" parent="1" source="max_gnd" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="esp_gnd" value="GND">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="385" y="350" as="sourcePoint" />
+            <mxPoint x="595" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

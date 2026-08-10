@@ -1,0 +1,40 @@
+<mxfile host="Electron">
+  <diagram id="S7b-NH2YHmUgzGqzTctF" name="Página-1">
+    <mxGraphModel dx="934" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="system" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;spacingTop=8;fontSize=18;" value="Sistema de monitoreo personal - Paciente" vertex="1">
+          <mxGeometry height="510" width="300" x="390" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="actor_paciente" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=18;" value="Paciente" vertex="1">
+          <mxGeometry height="120" width="70" x="250" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_login" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;" value="Iniciar sesión" vertex="1">
+          <mxGeometry height="70" width="260" x="410" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="e_uc_login" edge="1" parent="1" source="actor_paciente" style="endArrow=none;html=1;fontSize=18;" target="uc_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_profile" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;" value="Consultar perfil" vertex="1">
+          <mxGeometry height="70" width="260" x="410" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="e_uc_profile" edge="1" parent="1" source="actor_paciente" style="endArrow=none;html=1;fontSize=18;" target="uc_profile">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_records" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;" value="Consultar registros biométricos" vertex="1">
+          <mxGeometry height="70" width="260" x="410" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="e_uc_records" edge="1" parent="1" source="actor_paciente" style="endArrow=none;html=1;fontSize=18;" target="uc_records">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_charts" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;" value="Visualizar gráficos" vertex="1">
+          <mxGeometry height="70" width="260" x="410" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="e_uc_charts" edge="1" parent="1" source="actor_paciente" style="endArrow=none;html=1;fontSize=18;" target="uc_charts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

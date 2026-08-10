@@ -1,0 +1,114 @@
+<mxfile host="Electron">
+  <diagram id="AeBVRZjvf9-ZbpjA52G5" name="Página-1">
+    <mxGraphModel dx="1557" dy="1167" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" value="Inicio" vertex="1">
+          <mxGeometry height="50" width="100" x="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="init" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Inicializar ESP32, puerto serie y bus I²C" vertex="1">
+          <mxGeometry height="60" width="260" x="240" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="initSensors" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Inicializar MAX30102 y MPU6050" vertex="1">
+          <mxGeometry height="60" width="240" x="250" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="wifiDecision" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="¿Wi‑Fi conectado?" vertex="1">
+          <mxGeometry height="100" width="200" x="270" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="connectWifi" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Intentar conexión Wi‑Fi" vertex="1">
+          <mxGeometry height="60" width="190" x="30" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="readMax" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Leer frecuencia cardíaca y SpO₂" vertex="1">
+          <mxGeometry height="60" width="260" x="240" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="readMpu" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Leer aceleración en ejes X, Y y Z" vertex="1">
+          <mxGeometry height="60" width="260" x="240" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="fallDecision" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="¿Se detecta una caída?" vertex="1">
+          <mxGeometry height="100" width="200" x="270" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="pOto9RFaUpEoN9yV53sg-3" edge="1" parent="1" source="setTrue" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="setTrue" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="fall_detected = true" vertex="1">
+          <mxGeometry height="60" width="170" x="30" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="pOto9RFaUpEoN9yV53sg-2" edge="1" parent="1" source="setFalse" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="setFalse" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="fall_detected = false" vertex="1">
+          <mxGeometry height="60" width="180" x="550" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="json" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Construir objeto JSON con las mediciones" vertex="1">
+          <mxGeometry height="60" width="280" x="230" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="post" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Enviar solicitud HTTP POST a la API REST" vertex="1">
+          <mxGeometry height="60" width="300" x="220" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="responseDecision" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="¿Respuesta exitosa?" vertex="1">
+          <mxGeometry height="100" width="200" x="270" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="success" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mostrar confirmación en el Monitor Serie" vertex="1">
+          <mxGeometry height="60" width="240" x="520" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="error" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mostrar código de error en el Monitor Serie" vertex="1">
+          <mxGeometry height="60" width="240" x="20" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="delay" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Esperar hasta el siguiente ciclo de medición" vertex="1">
+          <mxGeometry height="60" width="280" x="230" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="start" style="endArrow=block;html=1;" target="init">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="init" style="endArrow=block;html=1;" target="initSensors">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="initSensors" style="endArrow=block;html=1;" target="wifiDecision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="wifiDecision" style="endArrow=block;html=1;" target="connectWifi" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="wifiDecision" style="endArrow=block;html=1;" target="readMax" value="Sí">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="readMax" style="endArrow=block;html=1;" target="readMpu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="readMpu" style="endArrow=block;html=1;" target="fallDecision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="fallDecision" style="endArrow=block;html=1;" target="setTrue" value="Sí">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="fallDecision" style="endArrow=block;html=1;" target="setFalse" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="json" style="endArrow=block;html=1;" target="post">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="post" style="endArrow=block;html=1;" target="responseDecision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="responseDecision" style="endArrow=block;html=1;" target="success" value="Sí">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="responseDecision" style="endArrow=block;html=1;" target="error" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="error" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="delay">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="delay" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;" target="wifiDecision">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="1160" />
+              <mxPoint x="790" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

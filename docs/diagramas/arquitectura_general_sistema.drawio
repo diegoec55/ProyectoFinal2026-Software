@@ -1,0 +1,99 @@
+<mxfile host="Electron">
+  <diagram id="Q3sAYHtDxPDJ4awK7D8a" name="Página-1">
+    <mxGraphModel dx="1334" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" value="Arquitectura general del sistema de monitoreo personal" vertex="1">
+          <mxGeometry height="40" width="570" x="300" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="hardware_zone" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;spacingTop=8;dashed=1;fontSize=18;" value="Dispositivo de monitoreo" vertex="1">
+          <mxGeometry height="500" width="300" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="max30102" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" value="MAX30102&#xa;Frecuencia cardíaca y SpO₂" vertex="1">
+          <mxGeometry height="70" width="180" x="80" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="mpu6050" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" value="MPU6050&#xa;Aceleración y detección de caídas" vertex="1">
+          <mxGeometry height="70" width="190" x="110" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="esp32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=18;" value="ESP32&#xa;Procesamiento y conectividad Wi‑Fi" vertex="1">
+          <mxGeometry height="80" width="220" x="80" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="wifi" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fontSize=18;" value="Red Wi‑Fi&#xa;HTTP + JSON" vertex="1">
+          <mxGeometry height="110" width="180" x="410" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="backend_zone" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;spacingTop=8;dashed=1;fontSize=18;" value="Servidor de aplicaciones" vertex="1">
+          <mxGeometry height="500" width="300" x="660" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=18;" value="API REST&#xa;Node.js + Express" vertex="1">
+          <mxGeometry height="80" width="220" x="700" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="logic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" value="Lógica de negocio&#xa;Rutas, controladores y middlewares" vertex="1">
+          <mxGeometry height="80" width="220" x="700" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="mysql" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fontSize=17;" value="Base de datos MySQL&#xa;Usuarios y registros biométricos" vertex="1">
+          <mxGeometry height="100" width="200" x="710" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="webapp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fontSize=18;" value="Plataforma web&#xa;Consulta, administración y gráficos" vertex="1">
+          <mxGeometry height="100" width="250" x="1030" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=18;" value="Administrador" vertex="1">
+          <mxGeometry height="100" width="60" x="1030" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=18;" value="Paciente" vertex="1">
+          <mxGeometry height="100" width="60" x="1130" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="carer" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=18;" value="Cuidador" vertex="1">
+          <mxGeometry height="100" width="60" x="1230" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;fontSize=17;" value="I²C">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="90" y="330" />
+              <mxPoint x="90" y="330" />
+            </Array>
+            <mxPoint x="90" y="240" as="sourcePoint" />
+            <mxPoint x="90" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="mpu6050" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;entryX=0.568;entryY=0.001;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=17;" target="esp32" value="I²C">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="esp32" style="endArrow=block;html=1;fontSize=17;" target="wifi" value="Envío de mediciones">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="wifi" style="endArrow=block;html=1;fontSize=17;" target="api" value="HTTP POST / JSON">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="api" style="endArrow=block;html=1;" target="logic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="logic" style="endArrow=block;html=1;fontSize=17;" target="mysql" value="Sequelize / SQL">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="webapp" style="startArrow=block;endArrow=block;html=1;fontSize=17;" target="api" value="HTTP GET, POST,&lt;div&gt;PUT y DELETE&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.4491" y="-41" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="webapp" style="endArrow=block;html=1;dashed=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=17;" target="admin" value="Datos y gráficos">
+          <mxGeometry relative="1" x="-0.2704" y="-12" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1040" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="webapp" style="endArrow=block;html=1;dashed=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=17;" target="patient" value="Datos y gráficos">
+          <mxGeometry relative="1" x="0.4007" y="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1130" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="webapp" style="endArrow=block;html=1;dashed=1;entryX=0.527;entryY=-0.024;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=17;" target="carer" value="Datos y gráficos">
+          <mxGeometry relative="1" x="-0.1804" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
